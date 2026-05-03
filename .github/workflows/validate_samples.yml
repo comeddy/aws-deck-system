@@ -1,0 +1,122 @@
+name: Validate Sample Decks
+
+on:
+  pull_request:
+    paths:
+      - 'skill/**'
+      - 'samples/**'
+      - 'assets/**'
+  push:
+    branches: [main]
+
+jobs:
+  build-samples:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - physicalai-deck
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python deps
+        run: pip install pillow numpy
+
+      - name: Install Node deps
+        run: npm install pptxgenjs
+
+      - name: Prepare assets
+        run: |
+          mkdir -p /home/claude
+          if [ -f assets/aws_logo_white.png ]; then
+            cp assets/aws_logo_white.png /home/claude/
+            cp assets/title_bg.png /home/claude/
+            cp assets/section_bg_33.png /home/claude/
+            echo "✓ Used pre-built assets from repo"
+          else
+            python skill/scripts/prepare_assets.py
+            echo "✓ Generated assets via prepare_assets.py"
+          fi
+          ls -la /home/claude/*.png
+
+      - name: Build sample
+        run: |
+          mkdir -p /mnt/user-data/outputs
+          if [ -f samples/${{ matrix.sample }}/build.js ]; then
+            node samples/${{ matrix.sample }}/build.js
+          else
+            echo "::warning::No build.js for ${{ matrix.sample }}"
+            exit 0
+          fi
+
+      - name: Verify output
+        run: |
+          shopt -s nullglob
+          files=(/mnt/user-data/outputs/*.pptx)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "::error::No .pptx generated"
+            exit 1
+          fi
+          for f in "${files[@]}"; do
+            size=$(stat -c%s "$f")
+            echo "✓ $f (size: $size bytes)"
+            if [ "$size" -lt 10000 ]; then
+              echo "::error::$f is suspiciously small (<10KB)"
+              exit 1
+            fi
+          done
+
+      - name: Upload sample artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sample-${{ matrix.sample }}
+          path: /mnt/user-data/outputs/*.pptx
+
+  validate-skill-md:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+
+      - run: pip install pyyaml
+
+      - name: Validate SKILL.md
+        run: |
+          python << 'EOF'
+          import re, sys, yaml
+          with open('skill/SKILL.md') as f:
+              content = f.read()
+          m = re.match(r'^---\n(.*?)\n---', content, re.DOTALL)
+          assert m, "Missing YAML frontmatter"
+          fm = yaml.safe_load(m.group(1))
+          assert 'name' in fm, "Missing 'name'"
+          assert 'description' in fm, "Missing 'description'"
+          assert len(fm['description']) >= 100, "Description too short"
+          assert len(fm['description']) <= 1500, "Description too long"
+          print(f"✓ {fm['name']}: {len(fm['description'])} chars")
+          EOF
+
+      - name: Check copyright string consistency
+        run: |
+          EXPECTED='© 2026, Amazon Web Services, Inc. or its affiliates. All rights reserved. Amazon Confidential and Trademark.'
+          if grep -F "$EXPECTED" skill/SKILL.md > /dev/null; then
+            echo "✓ Standard copyright string in SKILL.md"
+          else
+            echo "::error::Standard copyright string missing from SKILL.md"
+            exit 1
+          fi
