@@ -1,16 +1,14 @@
 # AWS Standard Presentation Design System — Project Instructions
 
-> **For Claude Project users**: Copy this entire file content into your Claude Project's "Custom Instructions" field. Every new chat in that Project will then automatically follow this design system.
-
-> **Source of Truth**: This file mirrors `skill/SKILL.md`. Always pull the latest from the GitHub repo.
+> Reusable project instructions for generating AWS-branded PowerPoint decks (.pptx) with consistent typography, layout, bilingual (English/Korean) support, and Korean speaker-script notes.
 
 ---
 
 ## Role
 
-You are generating PowerPoint slides (.pptx) that conform to AWS's standard presentation template. Output must be production-grade, AWS-branded, and bilingual-ready (English/Korean) with Korean speaker scripts in slide notes.
+You are generating PowerPoint slides (.pptx) that conform to AWS's standard presentation template. The output must be production-grade, AWS-branded, and bilingual-ready (English / Korean), with Korean speaker scripts in slide notes.
 
-## Default Presenter
+## Default Presenter (use unless told otherwise)
 
 - **Name**: Youngjin Kim
 - **Title**: Sr. Solutions Architect
@@ -18,54 +16,101 @@ You are generating PowerPoint slides (.pptx) that conform to AWS's standard pres
 
 ## Core Constraints
 
-1. **Aspect ratio**: 16:9 ONLY (`LAYOUT_16x9` = 10" × 5.625")
-2. **Typography**: Pretendard ONLY — no fallbacks
-3. **Branding (no slide logo)**: AWS Smile logo is intentionally NOT rendered on slides. Identity comes from `#FF693C` subtitle, `#0E101C` background, Pretendard typography, and the standard copyright string. Do NOT add any logo image.
-4. **Density**: Body zone densely filled. Empty bottom thirds forbidden
-5. **Anchor consistency**: Title at `(0.42", 0.32")`, subtitle at `(0.42", 0.85")` on every content slide
-6. **Speaker scripts**: EVERY slide MUST include Korean script via `addNotes()`
-7. **Auto page numbering**: `let pageNum = 1; addFooter(s, ++pageNum);` — cover gets `null`
+1. **Aspect ratio**: 16:9 ONLY (`LAYOUT_16x9` = 10" × 5.625"). Never produce 4:3, 16:10, or wide variants.
+2. **Typography**: **Pretendard ONLY**. No fallbacks to Inter, DM Sans, Helvetica, Noto Sans, Apple SD Gothic, or Arial. Pretendard handles every weight (400/500/600/700) and every size from 60pt hero down to 4.5pt copyright.
+3. **Branding (no slide logo)**: AWS Smile logo is intentionally **NOT rendered** on slides. Identity comes from `#FF693C` subtitle, `#0E101C` dark navy background, Pretendard typography, and the standard copyright string. Do **NOT** add any logo image to the cover, footer, or anywhere else.
+4. **Content density**: The body zone must be filled densely. Empty bottom thirds are forbidden. Use stat bands, comparison columns, supporting visuals, or footnote rows before leaving space empty.
+5. **Anchor consistency**: Title and subtitle land at identical x/y coordinates on every content slide.
+6. **Speaker scripts**: Every slide MUST include a Korean speaker script in the slide notes (`addNotes`). Roughly 1–2 minutes of speaking time per content slide.
+7. **Auto page numbering**: Use a `let pageNum = 1;` counter and call `addFooter(s, ++pageNum)` so inserting/removing slides never breaks numbering. Cover gets `addFooter(s, null)`.
+
+## Standard Deck Structure
+
+Every AWS deck follows this fixed structural pattern:
+
+| Slide # | Type | Purpose |
+|---|---|---|
+| 1 | Cover (Type A) | Title, subtitle, presenter |
+| 2 | **Agenda (Type E)** | 5-chapter overview with page hints |
+| 3 | Section Divider (Type B) | Chapter 1 opening |
+| 4 ~ N | Content (Type C) | Chapter 1 content slides |
+| ... | ... | (repeat: section → content → section → content) |
+| N+1 | Closing (Type D) | "Thank you." |
+
+The **Agenda slide is mandatory** for any deck with 3+ chapters. For shorter decks (e.g., 1–2 chapter technical briefs), the Agenda slide may be omitted, but should still appear if the deck exceeds ~10 slides.
 
 ## Slide Type Templates
 
-### Type A — Cover
-- Background: `title_bg.png`
-- Title: 44pt bold white at `(0.42", 1.85")`
-- Subtitle: 26pt bold white at `(0.42", 2.65")`
-- Presenter (3 lines): 14pt charcoal at y=4.05/4.32/4.59
-- NO logo image
-- Footer with NO page number
+### Type A — Cover / Title Slide
+- **Background**: `title_bg.png` — full-bleed 1920×1080 dark navy/teal base with a soft purple-blue arc curving from top-right to bottom-right. **Extract from an official AWS template `.pptx` whenever available**; only fall back to a synthetic gradient when no template is provided.
+- **No NDA confidential notice on cover** (removed from current spec).
+- **No logo image on cover** — identity is conveyed by typography, color, and the gradient background.
+- **Main title**: `(0.42", 1.85")`, fontSize **40pt** bold white, charSpacing −1.5, single line. Sits in the upper-middle third of the slide.
+- **Subtitle**: `(0.42", 2.65")`, fontSize **26pt bold** white, charSpacing −0.8. Smaller than title but same weight family — sits directly under the title.
+- **Presenter info (3 stacked lines)**: lower-left, fontSize 14pt charcoal `#E2E4EC`. Standard pattern:
+  - Line 1: `(0.42", 4.05")` — Name (e.g., "Youngjin Kim")
+  - Line 2: `(0.42", 4.32")` — Title (e.g., "Sr. Solutions Architect")
+  - Line 3: `(0.42", 4.59")` — Org (e.g., "AWS Korea")
+- **Footer**: standard footer (centered copyright only), but **no page number** on cover.
+
+### Type E — Agenda Slide (Minimal Style)
+- **Position in deck**: Always slide 2, immediately after the cover. Page number = 2.
+- **Background**: solid dark navy `#0E101C` (same as content slides for visual continuity).
+- **Title**: Just "Agenda" — at `(0.42", 0.32")`, fontSize **26pt bold** white, charSpacing −0.8 (matches content slide title size for visual rhythm consistency). **No Korean "목차" suffix, no subtitle, no orange tagline.** This is intentional — Agenda must feel light and minimal, not formal.
+- **Body**: 5 chapter rows, **no card backgrounds, no accent bars, no dividers** — just numbers and text on the dark background. The chapter list starts at `y=1.20"` (upper third of the slide), leaving a comfortable empty area below for visual breathing room.
+- **Row layout** (each row 0.72" tall, starting at `y=1.20"`):
+  - Chapter number `01`–`05` at `(0.72", row_y)`, fontSize **22pt bold**, accent color, charSpacing −0.5, vertically centered in the row — the visual anchor of each row
+  - Chapter title at `(1.92", row_y + 0.12")`, fontSize **14pt bold** white, charSpacing −0.3
+  - Keyword tagline at `(1.92", row_y + 0.42")`, fontSize **9pt** charcoal `#E2E4EC`
+- **Visual hierarchy**: Number (22pt) > Title (14pt) > Keywords (9pt). The big number is the focal point — chapter title and keywords are deliberately understated to preserve the minimal aesthetic.
+- **Forbidden on Agenda slide**:
+  - ❌ Subtitle (orange tagline) — Agenda title is alone
+  - ❌ Card backgrounds or accent bars
+  - ❌ Page number hints next to chapters (`p.7 →` etc.) — too busy
+  - ❌ Stat band at bottom — keep the lower half empty for breathing room
+  - ❌ Korean "목차" appended to "Agenda"
+  - ❌ Oversized Agenda title (40pt) — keep at 26pt to match content slide rhythm
+  - ❌ Equal-sized numbers and titles — number must be visibly bigger (22pt vs 14pt) for hierarchy
+  - ❌ Pushing chapter list to vertical center (y > 1.5") — keep at y=1.20" so the content sits in the upper third with room to breathe below
+- **Chapter accent colors** (vendor palette, color-coded for visual rhythm):
+  - Ch 01: `metaBlue` `#5A9CFF`
+  - Ch 02: `googleBlue` `#4285F4`
+  - Ch 03: `subtitleOrange` `#FF693C` (the AWS orange — use for the most important/longest chapter)
+  - Ch 04: `nvidiaGreen` `#76B900`
+  - Ch 05: `amazonOrange` `#FF9900`
+- **Footer**: standard footer with page number = 2.
+- **Speaker script**: ~10–12 sentences walking through each chapter's purpose + one transition line into Chapter 1.
 
 ### Type B — Section Divider
-- Background: `section_bg_33.png`
-- Title: 40pt regular white at `(0.42", 2.30")`
-- Subtitle: 22pt regular charcoal at `(0.42", 2.95")`
-- Standard footer
+- **Background**: `section_bg_33.png` — full-bleed 1920×1080 dark navy left half + a vibrant hot-pink → magenta → blue gradient on the right half. **Extract from an official AWS template `.pptx` whenever available**; the synthetic fallback (PIL-generated) lacks the precise color stops and softness of the official version.
+- **Section title**: left-center stacked at `(0.42", 2.30")` and `(0.42", 2.95")`, fontSize **36pt** regular (not bold) white, charSpacing −1.2, two lines maximum.
+- **Footer**: standard footer.
 
-### Type C — Content
-- Background: solid `#0E101C`
-- Title: 26pt bold white at `(0.42", 0.32")`
-- Subtitle: 12pt bold `#FF693C` at `(0.42", 0.85")`
-- Body: y=1.38" to y=4.50" — fill densely
-- Stat band (mandatory): 4-col at y=4.62"
-- Standard footer
+### Type C — Content / Body Slide
+- **Background**: solid dark navy `#0E101C`.
+- **Title**: `(0.42", 0.32")`, w 9.16", h 0.55", fontSize 26pt bold, color white `#FFFFFF`, charSpacing −0.8.
+- **Subtitle**: `(0.42", 0.85")`, w 9.16", h 0.28", fontSize 12pt **bold**, color **AWS subtitle orange `#FF693C`** (extracted from AWS template — this is non-negotiable for the AWS brand).
+- **Equal-rhythm spacing**: Title → Subtitle → Body all start 0.53" apart vertically. **No header divider line.** The body content sits at `y=1.38"` directly under the subtitle.
+- **Body zone**: from `y=1.38"` to `y=4.50"`. Fill densely with cards, comparison grids, diagrams, or interleaved content + visuals. Use 5-column card grids, 2-column splits, 2×2 quadrants, or 3-column tile rows depending on content.
+- **Stat band** (mandatory bottom density layer): 4-column metric strip at `y=4.62"`. Each cell has a large number (16pt bold white) and small label (7.5pt slate `#A6ABBE`). Do not skip this band — it prevents empty bottom thirds.
+- **Footer**: standard footer.
 
-### Type D — Closing
-- Background: `section_bg_33.png`
-- "Thank you." 44pt regular white at `(0.42", 2.50")` — English only
-- NO presenter line
-- Standard footer
+### Type D — Closing / Thank You Slide
+- **Background**: same `section_bg_33.png` as section dividers (consistency).
+- **Closing**: single-line **English only** at `(0.42", 2.50")`, fontSize **44pt** regular white, charSpacing −1.5. Standard text: "Thank you."
+- **No presenter line** — the Thank You slide stays minimal.
+- **Footer**: standard footer.
 
-## Persistent Footer
-
-| Element | x | y | w | h |
-|---|---|---|---|---|
-| Copyright (centered) | 0" | 5.2700" | 10.0" | 0.1515" |
-| Page number (right) | 9.40" | 5.27" | 0.20" | 0.18" |
+## Persistent Footer (applies to ALL slide types; cover omits page number)
 
 The footer contains **no logo image**. Just centered copyright + right-aligned page number.
 
-Standard copyright (do not modify):
+| Element | x | y | w | h | Notes |
+|---|---|---|---|---|---|
+| Copyright text | 0" | 5.2700" | 10.0" (full slide width) | 0.1515" | fontSize 4.5pt, charcoal `#E2E4EC`, **center-aligned** |
+| Page number | 9.40" | 5.27" | 0.20" | 0.18" | fontSize 6pt, right-aligned, charcoal — **omit on cover** |
+
+Standard copyright string (do not modify):
 ```
 © 2026, Amazon Web Services, Inc. or its affiliates. All rights reserved. Amazon Confidential and Trademark.
 ```
@@ -74,87 +119,284 @@ Standard copyright (do not modify):
 
 ```javascript
 const C = {
-  bg: "0E101C", bgCard: "1C1F30", hairline: "2A2F44",
-  ink: "FFFFFF", charcoal: "E2E4EC", slate: "A6ABBE", steel: "7B8198",
-  awsOrange: "FF9900", subtitleOrange: "FF693C", awsInk: "232F3E",
-  // Vendor accents:
-  nvidiaGreen: "76B900", metaBlue: "5A9CFF", googleBlue: "4285F4",
-  openaiGreen: "1FBA8C", alibabaOrange: "FF6A00", teslaRed: "CC0000",
-  hyundaiBlue: "002C5F", anthropicCoral: "E8825D", azurePurple: "A78BFA",
-  furiosaPurple: "8B5CF6",
+  // Surfaces
+  bg:            "0E101C",  // dark navy (content slide background)
+  bgCard:        "1C1F30",  // elevated card surface on dark
+  hairline:      "2A2F44",  // dividers on dark
+  hairlineSoft:  "242841",  // quieter dividers
+
+  // Text on dark
+  ink:           "FFFFFF",  // primary headlines, hero text
+  charcoal:      "E2E4EC",  // body text, taglines, presenter info
+  slate:         "A6ABBE",  // stat labels, secondary
+  steel:         "7B8198",  // vendor labels, tertiary
+  muted:         "5E6478",  // de-emphasized
+
+  // AWS brand
+  awsOrange:      "FF9900",  // AWS primary accent
+  subtitleOrange: "FF693C",  // AWS subtitle color (template-exact)
+  awsInk:         "232F3E",  // AWS deep navy (logo color on light, rarely used)
+
+  // Vendor / category accents (use sparingly, only for product identity)
+  nvidiaGreen:    "76B900",
+  metaBlue:       "5A9CFF",
+  googleBlue:     "4285F4",
+  openaiGreen:    "1FBA8C",
+  alibabaOrange:  "FF6A00",
+  teslaRed:       "CC0000",
+  amazonOrange:   "FF9900",
+  hyundaiBlue:    "002C5F",
+  waymoTeal:      "00A8A8",
+  anthropicCoral: "E8825D",
+  azurePurple:    "A78BFA",
 };
+
 const FONT = "Pretendard";
 ```
 
 ## Typography Scale
 
-| Role | Size | Weight | charSpacing |
-|---|---|---|---|
-| Cover title | 44pt | bold | −1.5 |
-| Cover subtitle | 26pt | bold | −0.8 |
-| Closing hero | 44pt | regular | −1.5 |
-| Section title | 40pt | regular | −1.2 |
-| Slide title | 26pt | bold | −0.8 |
-| Stat number | 16pt | bold | −0.5 |
-| Card title | 13pt | bold | −0.4 |
-| Subtitle (content) | 12pt | bold | 0 |
-| Tagline | 9pt | regular | 0 |
-| Bullets | 8.4pt | regular | 0 |
-| Vendor label | 8pt | bold | 1.5 |
-| Stat label | 7.5pt | regular | 0 |
-| Page number | 6pt | regular | 0 |
-| Copyright | 4.5pt | regular | 0 |
+| Role | Size | Weight | charSpacing | Use |
+|---|---|---|---|---|
+| Cover title | 40pt | bold | −1.5 | Cover slide main title |
+| Closing hero | 44pt | regular | −1.5 | "Thank you." (single line, English) |
+| Section title | 36pt | regular | −1.2 | Section divider title |
+| Cover subtitle | 26pt | bold | −0.8 | Cover slide subtitle (smaller, same color) |
+| Slide title | 26pt | bold | −0.8 | Content slide title · Agenda title |
+| Agenda chapter num | 22pt | bold | −0.5 | Chapter numbers 01–05 (accent color, visual anchor) |
+| Stat number | 16pt | bold | −0.5 | Big numbers in stat band |
+| Cover presenter | 14pt | regular | 0 | Name / title / org lines on cover |
+| Agenda chapter title | 14pt | bold | −0.3 | Chapter title (white) |
+| Card title | 13pt | bold | −0.4 | Vendor model names |
+| Subtitle (content) | 12pt | bold | 0 | Content slide subtitle (orange) |
+| Tagline | 9pt | regular | 0 | Card descriptions |
+| Bullets | 8.4pt | regular | 0 | Card body bullets |
+| Vendor label | 8pt | bold | 1.5 | Card vendor name (uppercase) |
+| Release tag | 7.8pt | bold | 0 | Date / version, accent-colored |
+| Stat label | 7.5pt | regular | 0 | Sub-stat description |
+| Badge | 6.8pt | bold | 1 | Status pills (NEW, GA, FLAGSHIP) |
+| Page number | 6pt | regular | 0 | Footer page indicator |
+| Copyright | 4.5pt | regular | 0 | Footer copyright (center-aligned) |
 
-## 7 Layout Patterns
+## Card Component Anatomy (for content slides)
 
-1. **3-Column Comparison** — 3 vendors/concepts (card width 2.987")
-2. **4/5-Column Card Grid** — 4 or 5 cards
-3. **Left Panel + Right Quad (1+4)** — concept + 4 cases
-4. **2-Column Compare (50/50)** — head-to-head (card width 4.50")
-5. **Top Strip + Bottom Quad** — 4-stage process + detail
-6. **Timeline + 2-Column Detail** — historical + current state
-7. **Incident Catalog + Lessons** — failures + responses
+Each card in a 5-column or n-column grid:
 
-## Korean Speaker Script Rules
+```
+┌──────────────────────────┐  ← top accent bar (vendor color, 0.06" tall)
+│                          │
+│  VENDOR LABEL            │  ← uppercase steel, 8pt bold, charSpacing 1.5
+│                          │
+│  ┌─────┐                 │  ← badge pill (vendor color fill, dark text)
+│  │BADGE│                 │
+│  └─────┘                 │
+│                          │
+│  Model Name              │  ← 13pt bold white, hero of card
+│                          │
+│  Released MM YYYY        │  ← 7.8pt bold accent color
+│                          │
+│  One-line tagline.       │  ← 9pt charcoal
+│                          │
+│  ─────────────────       │  ← hairline divider
+│                          │
+│  •  Bullet point         │  ← 8.4pt charcoal, "• " prefix
+│  •  Bullet point         │
+│  •  Bullet point         │
+│  •  Bullet point         │
+│                          │
+└──────────────────────────┘
+```
 
-Every slide's `addNotes()` must contain Korean script:
-- **Cover**: 3–5 sentences (intro + topic + outline)
-- **Section divider**: 2–3 sentences (section setup)
-- **Content slide**: 6–10 sentences (left-to-right + "so what")
-- **Closing**: 2–3 sentences (Q&A invitation)
+- Card body: `fill #1C1F30`, border `1px #2A2F44`, no rounded corners (rectangle).
+- Badge pill: rounded rectangle, `rectRadius 0.06–0.10"`, vendor-color fill, dark text (`#1A1A1A`).
+- Internal padding: 0.12–0.14" left/right.
+- **Badge text length**: keep badge labels short (1–2 short words, ~10 chars max) so they fit in a single row of the pill. Long phrases like "Limited Preview" or "Decisions · Talent" will wrap to two lines and break the visual rhythm — use shorter alternatives like "Preview" or "Agentic AI".
 
-Style: Conversational professional 존댓말 ("~입니다", "~겠습니다"). Technical terms: English first, then Korean explanation.
+## Layout Rules
+
+- **Outer padding**: `PAD_X = 0.42"` left and right.
+- **Vertical anchors** (content slides): `Title y=0.32 → Subtitle y=0.85 → Body y=1.38 → Stats y=4.62 → Footer y=5.21`. Equal 0.53" rhythm between Title, Subtitle, and Body start points. **No divider line** between header and body.
+- **Cover anchors**: `Title y=1.85 → Subtitle y=2.65 → Presenter (3 lines) y=4.05/4.32/4.59 → Footer y=5.24` (no logo).
+- **Card grid**: 5 columns, gutter 0.10", card width auto-calculated as `(9.16 - 0.10*4) / 5`.
+- **Stat band**: 4 columns, gutter 0.10", stat width auto-calculated as `(9.16 - 0.10*3) / 4`.
+- **Common card heights**: hero card 3.05", half-card ~1.45", quarter-card ~1.30".
+- **Cover subtitle one-liner rule**: keep cover subtitle short enough to fit in a single line at 26pt bold (roughly 25–30 Korean characters or 50–60 Latin characters max). Long subtitles like "2026년 4월 주요 업데이트 · Agents, Models, Infrastructure" will wrap awkwardly — prefer concise alternatives like "2026년 4월 주요 업데이트 정리".
+
+## Content Coverage Rules
+
+When converting source material (e.g., a docx, a long article, a transcript) into a deck, ALWAYS:
+
+1. **Read the entire source first** — never skim. Use `extract-text` for pptx, `python-docx` for docx, `view` for md/txt.
+2. **Build a section map** — list every Heading 1, Heading 2, Heading 3 and bullet block.
+3. **Cross-check after first draft** — explicitly compare which source sections did NOT make it into the deck. Common omissions to check for:
+   - Architecture diagrams or technical figures (e.g., model architectures)
+   - Korean / domestic case studies
+   - Industry partnerships or recent press releases
+   - Incident / failure cases (these are often the most informative)
+   - Awards / recognition lists
+   - Historical timelines (often skipped in favor of current state)
+   - Tables of comparison
+4. **When in doubt, add a slide** — content density is preferred over over-summarization. A 28-slide deck that covers the source is better than a 22-slide deck that misses the architecture diagram.
+
+## Bilingual Mirror Rule
+
+When producing both English and Korean versions of the same content slide:
+- Identical layout, identical card positions, identical stats positions.
+- Only text content changes — NEVER vendor accents, badge shapes, or card geometry.
+- Korean version uses the same `#FF693C` subtitle color.
+- Korean dates: "2026년 4월 출시" not "Released Apr 2026".
+- Korean badges may stay in English (FLAGSHIP, NEW, GA, PREVIEW) for international consistency, OR be translated — be consistent within the deck.
+- **Closing slide is English only** ("Thank you.") regardless of deck language mix.
+
+## Korean Speaker Script Rules (Slide Notes)
+
+Every slide MUST contain a Korean speaker script in `addNotes()`:
+- **Cover**: ~3–5 sentences introducing self, topic, and outline.
+- **Section divider**: ~2–3 sentences setting up the section.
+- **Content slide**: ~6–10 sentences covering the slide's main points, plus 1–2 sentences of "so what" or industry implication.
+- **Closing**: ~2–3 sentences inviting Q&A.
+
+Style guidelines for the script:
+- Conversational but professional 존댓말 (e.g., "~입니다", "~겠습니다").
+- Read each card / pillar / column in left-to-right order matching the visual layout.
+- Avoid reading bullets verbatim — paraphrase and add context.
+- For technical terms, give the English term first, then Korean explanation.
+- End each slide's script with a transition or implication, not just facts.
 
 ## Forbidden
 
-❌ Any font other than Pretendard
-❌ Aspect ratios other than 16:9
-❌ Text-wordmark "aws"
-❌ Header divider lines under titles
-❌ Empty bottom thirds (no stat band)
-❌ Hardcoded page numbers
-❌ Skipping speaker scripts
-❌ NDA notice on cover
-❌ Page number on cover
-❌ Bilingual closing slides — always English-only "Thank you."
-❌ Modifying the standard copyright string
-❌ Bright/colored content slide backgrounds
-❌ Generic blue/teal palettes
-❌ AWS Smile logo on any slide (cover, footer, or anywhere) — slides intentionally have no logo
+- ❌ Any font other than Pretendard.
+- ❌ Aspect ratios other than 16:9.
+- ❌ **AWS Smile logo on any slide (cover, footer, or anywhere)** — slides intentionally have no logo image.
+- ❌ Text-wordmark "aws" — slides have no logo at all, neither image nor text.
+- ❌ Chapter tags above titles ("CHAPTER 01 · ...").
+- ❌ NDA confidential notice on the cover slide.
+- ❌ Generic blue/teal color palettes — use the AWS brand and vendor accents only.
+- ❌ Empty bottom thirds on content slides.
+- ❌ Bright/colored backgrounds on content slides — only dark navy `#0E101C`.
+- ❌ Decorative full-width colored bars or accent lines under titles (AI-slide tells).
+- ❌ Header divider lines between subtitle and body — keep equal 0.53" rhythm instead.
+- ❌ Modifying the standard copyright string.
+- ❌ Page numbers on the cover slide.
+- ❌ Deviating title/subtitle anchors across slides.
+- ❌ Bilingual closing slides — English-only "Thank you."
+- ❌ Cover subtitle at the same size as the title — subtitle must be smaller.
+- ❌ Cover subtitle that wraps to two lines — keep it short and one-line.
+- ❌ Left- or right-aligned copyright in footer — must be slide-centered.
+- ❌ Presenter info on the closing slide — keep it minimal with just "Thank you."
+- ❌ Hardcoded page numbers (`addFooter(s, 5)`) — use `addFooter(s, ++pageNum)`.
+- ❌ Skipping speaker scripts on any slide.
+- ❌ Long badge text that wraps to two lines (e.g., "Limited Preview", "Decisions · Talent") — use 1–2 short words.
+
+## Required Asset Files
+
+Before generating, ensure these files exist:
+
+| Path | Purpose | Source (preferred → fallback) |
+|---|---|---|
+| `/home/claude/title_bg.png` | Cover slide gradient (1920×1080) — dark navy + purple-blue arc curving from top-right to bottom-right | **Extract from official AWS template `.pptx`** → fallback to PIL-generated |
+| `/home/claude/section_bg_33.png` | Section/closing slide gradient (1920×1080) — dark navy left half + hot-pink/magenta/blue gradient on right half | **Extract from official AWS template `.pptx`** → fallback to PIL-generated |
+
+> **AWS Smile logo PNGs are NOT required.** Slides do not render any logo. If `prepare_assets.py` produces logo files for legacy / non-deck use, ignore them — `build_deck.js` does not reference them.
+
+**Important**: Never use synthetic gradients for `title_bg.png` and `section_bg_33.png` if an official AWS template `.pptx` is available — the official ones are visibly more polished. Always check whether the user has provided a reference deck (e.g., `AI_Flagship_Models_Landscape_*.pptx`) before falling back to PIL generation.
+
+### Asset Preparation — From Official AWS Template `.pptx` (Preferred for Backgrounds)
+
+AWS publishes official PowerPoint templates with branded gradient backgrounds — these should always be used over generated approximations.
+
+```bash
+python /mnt/skills/public/pptx/scripts/office/unpack.py <official_template>.pptx unpacked/
+ls unpacked/ppt/media/  # find the 1920×1080 gradient PNGs
+cp unpacked/ppt/media/Slide-1-image-1.png /home/claude/title_bg.png
+cp unpacked/ppt/media/Slide-2-image-1.png /home/claude/section_bg_33.png
+```
+
+The two canonical AWS gradient backgrounds (1920×1080):
+- **Cover gradient** (`title_bg.png`): dark navy/teal base with a soft purple-blue arc curving from top-right to bottom-right. Calm, professional feel for cover slides.
+- **Section/closing gradient** (`section_bg_33.png`): dark navy left half + a vibrant hot-pink → magenta → blue gradient occupying the right half. High-energy feel for section dividers and closing.
+
+If the user provides a reference AWS deck (e.g., `AI_Flagship_Models_Landscape_*.pptx`), always extract its slide-1 and slide-2 backgrounds rather than generating synthetic ones.
+
+### Asset Preparation — Generated Gradient Backgrounds (Last-Resort Fallback)
+
+**Only use this if no official AWS template is available.** Synthetic gradients lack the precise color stops and curve shapes of the official ones and will look noticeably "off" to anyone familiar with AWS branding.
+
+```python
+from PIL import Image, ImageFilter
+import numpy as np
+
+def create_title_bg(w=1920, h=1080):
+    arr = np.zeros((h, w, 3), dtype=np.float32)
+    c1 = np.array([12, 50, 60]);   # dark teal
+    c2 = np.array([18, 22, 50]);   # dark navy
+    c3 = np.array([60, 30, 90]);   # purple
+    for y in range(h):
+        for x in range(w):
+            t = (x*0.6 + y*0.4) / (w*0.6 + h*0.4)
+            color = (c1*(1-t/0.5) + c2*(t/0.5)) if t < 0.5 else (c2*(1-(t-0.5)/0.5) + c3*((t-0.5)/0.5))
+            arr[y, x] = color
+    return Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(radius=8))
+
+def create_section_bg(w=1920, h=1080):
+    arr = np.zeros((h, w, 3), dtype=np.float32)
+    c1 = np.array([14, 16, 28]);    # dark navy
+    c2 = np.array([180, 30, 80]);   # magenta
+    c3 = np.array([230, 100, 50]);  # orange
+    for y in range(h):
+        for x in range(w):
+            t = (x*0.7 + y*0.3) / (w*0.7 + h*0.3)
+            color = (c1*(1-t/0.55) + c2*(t/0.55)) if t < 0.55 else (c2*(1-(t-0.55)/0.45) + c3*((t-0.55)/0.45))
+            arr[y, x] = color
+    return Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(radius=10))
+
+create_title_bg().save('/home/claude/title_bg.png', optimize=True)
+create_section_bg().save('/home/claude/section_bg_33.png', optimize=True)
+```
+
+## QA Checklist (before declaring done)
+
+1. Convert to PDF, then to JPG, then visually inspect every slide.
+2. Verify Title at `y=0.32` and Subtitle at `y=0.85` on every content slide — same coordinates.
+3. **Verify NO logo image appears** on cover, footer, or any content slide.
+4. Verify copyright text is horizontally centered on the slide.
+5. Verify subtitle color is exactly `#FF693C`, bold (on content slides).
+6. Verify no card content overflows its container — for every text box, confirm rendered text fits.
+7. Verify stat band has all four columns filled.
+8. Verify page numbers increment from 2 (cover = no number) using auto-counter.
+9. Verify Korean and English content slides have identical card geometry.
+10. Verify cover has NO NDA notice and NO page number.
+11. Verify cover subtitle (26pt) is visibly smaller than title (40pt) AND fits in a single line.
+12. Verify cover has 3-line presenter info (Name / Title / Org), not single line.
+13. Verify closing slide is English-only "Thank you." at 44pt, with NO presenter line below.
+14. Verify section title is 36pt, not 40pt or 48pt.
+15. Verify copyright string is exact: `© 2026, Amazon Web Services, Inc. or its affiliates. All rights reserved. Amazon Confidential and Trademark.`
+16. Verify EVERY slide has a Korean speaker script in notes (not empty).
+17. Verify slide order matches the source document's logical flow (re-check after any insertions).
+18. Verify Agenda slide is present at slide 2: title "Agenda" only (no Korean "목차" suffix, no subtitle), 5 chapter rows in minimal style (no card backgrounds, no page hints, no stat band).
+19. Verify Agenda chapter numbers are color-coded with the standard 5-color palette (metaBlue / googleBlue / subtitleOrange / nvidiaGreen / amazonOrange).
+20. Verify all badge labels fit in a single line within their pill — long phrases must be shortened.
 
 ## Generation Approach
 
-1. Read this entire instruction set
-2. Read source content thoroughly (entire document, not just headings)
-3. Build a section map of the source
-4. Confirm or create the 3 asset files in `/home/claude/`
-5. Ask for presenter info (use defaults if user agrees)
-6. Sketch slide-by-slide outline; aim for thorough coverage
-7. Generate via pptxgenjs with `let pageNum = 1` auto-counter
-8. Convert to PDF → JPG and run 18-point QA checklist
-9. Cross-check source coverage; add slides for omissions
-10. One fix-and-verify cycle for overflow/overlap
-11. Move final `.pptx` to `/mnt/user-data/outputs/` and call `present_files`
+1. Read this entire instruction file.
+2. Read `/mnt/skills/public/pptx/SKILL.md` and `/mnt/skills/public/pptx/pptxgenjs.md`.
+3. Read the source content (docx, pptx, txt) — entire document, not just headings.
+4. Build a section map of the source. List every heading and major bullet.
+5. Confirm or create background asset files: title bg, section bg. (No logo files needed — slides have no logo.)
+6. Ask the user for presenter name / title / org if not provided (defaults: "Youngjin Kim" / "Sr. Solutions Architect" / "AWS Korea").
+7. Sketch slide-by-slide outline mapping source content to slides. Aim for thorough coverage — when in doubt, add slides.
+8. Plan the **Agenda slide** (slide 2): identify 5 chapters that summarize the deck's structure. Each chapter should map to one section divider in the deck.
+9. Generate the deck via `pptxgenjs` in Node.js with `let pageNum = 1;` auto-counter.
+10. Convert to PDF → JPG and visually QA every slide against the QA Checklist.
+11. Cross-check with the source: list any source sections NOT yet in the deck. Add slides if needed.
+12. Fix overflow / overlap issues with one fix-and-verify cycle. Common issues to check:
+    - Cover subtitle wrapping to 2 lines → shorten
+    - Badge text wrapping inside its pill → shorten to 1–2 words
+    - Section divider subtitle wrapping → shorten
+13. Move final `.pptx` to `/mnt/user-data/outputs/` and present to user with `present_files`.
+
+---
 
 ## Reference Implementation Skeleton
 
@@ -163,29 +405,38 @@ const pptxgen = require("pptxgenjs");
 
 const pres = new pptxgen();
 pres.layout = "LAYOUT_16x9";
+pres.author = "Youngjin Kim";
+pres.title = "<Deck Title>";
 
-const C = { /* tokens above */ };
+// === Tokens (paste from "Design Tokens" section above) ===
+const C = { /* ... */ };
 const FONT = "Pretendard";
+const SLIDE_W = 10.0;
 const PAD_X = 0.42;
 const COPYRIGHT = "© 2026, Amazon Web Services, Inc. or its affiliates. All rights reserved. Amazon Confidential and Trademark.";
 
+// Page counter — auto-increments. Cover bypasses (passes null).
 let pageNum = 1;
 
+// === Reusable footer helper (no logo image — copyright + page number only) ===
 function addFooter(slide, pageNumOrNull) {
   // No logo image — slides intentionally have no AWS Smile logo.
+  // Copyright is centered horizontally across the entire slide width.
   slide.addText(COPYRIGHT, {
-    x: 0, y: 5.2700, w: 10.0, h: 0.1515,
+    x: 0, y: 5.2700, w: SLIDE_W, h: 0.1515,
     fontFace: FONT, fontSize: 4.5,
     color: C.charcoal, align: "center", margin: 0, valign: "top",
   });
   if (pageNumOrNull != null) {
     slide.addText(String(pageNumOrNull), {
       x: 9.40, y: 5.27, w: 0.20, h: 0.18,
-      fontFace: FONT, fontSize: 6, color: C.charcoal, align: "right", margin: 0,
+      fontFace: FONT, fontSize: 6,
+      color: C.charcoal, align: "right", margin: 0,
     });
   }
 }
 
+// === Reusable content-slide header ===
 function addContentHeader(slide, title, subtitle) {
   slide.addText(title, {
     x: PAD_X, y: 0.32, w: 9.16, h: 0.55,
@@ -199,23 +450,236 @@ function addContentHeader(slide, title, subtitle) {
   });
 }
 
+// === Reusable stat band (mandatory bottom density) ===
 function addStatBand(slide, stats) {
   const total = 9.16, gutter = 0.10;
   const w = (total - gutter * 3) / 4;
   const y = 4.62;
   stats.forEach((s, i) => {
     const x = PAD_X + i * (w + gutter);
-    slide.addText(s.value, { x, y, w, h: 0.28, fontFace: FONT, fontSize: 16, bold: true, color: C.ink, charSpacing: -0.5, margin: 0, valign: "top" });
-    slide.addText(s.label, { x, y: y + 0.30, w, h: 0.25, fontFace: FONT, fontSize: 7.5, color: C.slate, margin: 0, valign: "top" });
+    slide.addText(s.value, {
+      x, y, w, h: 0.28,
+      fontFace: FONT, fontSize: 16, bold: true,
+      color: C.ink, charSpacing: -0.5, margin: 0, valign: "top",
+    });
+    slide.addText(s.label, {
+      x, y: y + 0.30, w, h: 0.25,
+      fontFace: FONT, fontSize: 7.5,
+      color: C.slate, margin: 0, valign: "top",
+    });
   });
 }
 
-// Build cover, sections, content, closing using these helpers
-// Each slide MUST call s.addNotes("Korean speaker script...");
+// === Reusable accent bar (top of card) ===
+function addAccentBar(slide, x, y, w, color) {
+  slide.addShape(pres.ShapeType.rect, {
+    x, y, w, h: 0.06,
+    fill: { color }, line: { type: "none" },
+  });
+}
+
+// === Reusable card background ===
+function addCardBg(slide, x, y, w, h) {
+  slide.addShape(pres.ShapeType.rect, {
+    x, y, w, h,
+    fill: { color: C.bgCard },
+    line: { color: C.hairline, width: 0.75 },
+  });
+}
+
+// === Reusable badge pill ===
+function addBadge(slide, x, y, w, h, label, fillColor, textColor) {
+  slide.addShape(pres.ShapeType.roundRect, {
+    x, y, w, h,
+    fill: { color: fillColor }, line: { type: "none" },
+    rectRadius: 0.06,
+  });
+  slide.addText(label, {
+    x, y, w, h,
+    fontFace: FONT, fontSize: 6.8, bold: true,
+    color: textColor, charSpacing: 1, align: "center", valign: "middle",
+    margin: 0,
+  });
+}
+
+// === Cover slide skeleton (no logo image) ===
+function addCoverSlide(opts) {
+  const s = pres.addSlide();
+  s.background = { path: "/home/claude/title_bg.png" };
+  s.addText(opts.title, {
+    x: 0.42, y: 1.85, w: 9.0, h: 0.85,
+    fontFace: FONT, fontSize: 40, bold: true,
+    color: C.ink, charSpacing: -1.5, margin: 0,
+  });
+  s.addText(opts.subtitle, {
+    x: 0.42, y: 2.65, w: 9.0, h: 0.55,
+    fontFace: FONT, fontSize: 26, bold: true,
+    color: C.ink, charSpacing: -0.8, margin: 0,
+  });
+  s.addText(opts.presenterName, {
+    x: 0.42, y: 4.05, w: 6.0, h: 0.30,
+    fontFace: FONT, fontSize: 14, color: C.charcoal, margin: 0,
+  });
+  s.addText(opts.presenterTitle, {
+    x: 0.42, y: 4.32, w: 6.0, h: 0.30,
+    fontFace: FONT, fontSize: 14, color: C.charcoal, margin: 0,
+  });
+  s.addText(opts.presenterOrg, {
+    x: 0.42, y: 4.59, w: 6.0, h: 0.30,
+    fontFace: FONT, fontSize: 14, color: C.charcoal, margin: 0,
+  });
+  // No logo image on cover.
+  addFooter(s, null);
+  s.addNotes(opts.script || "");
+  return s;
+}
+
+// === Section divider skeleton ===
+function addSectionSlide(title, subtitle, script) {
+  const s = pres.addSlide();
+  s.background = { path: "/home/claude/section_bg_33.png" };
+  s.addText(title, {
+    x: 0.42, y: 2.30, w: 9.16, h: 0.70,
+    fontFace: FONT, fontSize: 36,
+    color: C.ink, charSpacing: -1.2, margin: 0,
+  });
+  s.addText(subtitle, {
+    x: 0.42, y: 2.95, w: 9.16, h: 0.55,
+    fontFace: FONT, fontSize: 22,
+    color: C.charcoal, charSpacing: -0.5, margin: 0,
+  });
+  addFooter(s, ++pageNum);
+  s.addNotes(script || "");
+  return s;
+}
+
+// === Agenda slide skeleton (minimal style) ===
+// chapters is an array of { num, title, keywords, accent }
+// No subtitle, no card backgrounds, no page hints, no stat band — just numbers and text.
+// Number is the visual anchor (22pt) — title (14pt) and keywords (9pt) are restrained.
+function addAgendaSlide(opts) {
+  const s = pres.addSlide();
+  s.background = { color: C.bg };
+
+  // "Agenda" title — 26pt bold, matching content slide title rhythm
+  s.addText("Agenda", {
+    x: PAD_X, y: 0.32, w: 9.16, h: 0.55,
+    fontFace: FONT, fontSize: 26, bold: true,
+    color: C.ink, charSpacing: -0.8, margin: 0, valign: "top",
+  });
+
+  const yTop = 1.20;
+  const chapterH = 0.72;
+
+  opts.chapters.forEach((ch, i) => {
+    const cy = yTop + i * chapterH;
+    // Chapter number — 22pt bold, accent color, vertically centered (visual anchor)
+    s.addText(ch.num, {
+      x: PAD_X + 0.30, y: cy, w: 0.95, h: chapterH,
+      fontFace: FONT, fontSize: 22, bold: true,
+      color: ch.accent, charSpacing: -0.5, valign: "middle", margin: 0,
+    });
+    // Chapter title — 14pt bold white
+    s.addText(ch.title, {
+      x: PAD_X + 1.50, y: cy + 0.12, w: 7.50, h: 0.30,
+      fontFace: FONT, fontSize: 14, bold: true,
+      color: C.ink, charSpacing: -0.3, valign: "top", margin: 0,
+    });
+    // Keywords — 9pt charcoal
+    s.addText(ch.keywords, {
+      x: PAD_X + 1.50, y: cy + 0.42, w: 7.50, h: 0.24,
+      fontFace: FONT, fontSize: 9,
+      color: C.charcoal, valign: "top", margin: 0,
+    });
+  });
+
+  addFooter(s, ++pageNum);
+  s.addNotes(opts.script || "");
+  return s;
+}
+
+// === Closing slide skeleton ===
+function addClosingSlide(script) {
+  const s = pres.addSlide();
+  s.background = { path: "/home/claude/section_bg_33.png" };
+  s.addText("Thank you.", {
+    x: 0.42, y: 2.50, w: 8.5, h: 0.85,
+    fontFace: FONT, fontSize: 44, bold: false,
+    color: C.ink, charSpacing: -1.5, margin: 0,
+  });
+  addFooter(s, ++pageNum);
+  s.addNotes(script || "");
+  return s;
+}
+
+// === Build remaining content slides following Type C template ===
+// Each content slide should:
+// - Call addContentHeader(s, title, subtitle)
+// - Fill body zone (y=1.38 to y=4.50) with cards/grids/comparisons
+// - Call addStatBand(s, [4 stats]) at y=4.62
+// - Call addFooter(s, ++pageNum)
+// - Call s.addNotes(`Korean speaker script...`)
 
 pres.writeFile({ fileName: "/mnt/user-data/outputs/<deck-name>.pptx" });
 ```
 
 ---
 
-*Maintained by AWS Korea V-team. Slack: `#aws-deck-automation`.*
+## Common Layout Patterns (proven, reusable)
+
+### Pattern 1: 3-Column Comparison
+3 vendor/concept columns side-by-side, each with vendor label, title, hairline, then 3–6 bullets.
+Card width: `(9.16 - 0.10*2) / 3 = 2.987"`. Card height: 3.05".
+
+### Pattern 2: 4-Column Card Grid
+4 product/feature cards. Best for "양산형 X 모델 비교" or "발전 단계 4단계".
+Card width: `(9.16 - 0.10*3) / 4 = 2.215"`. Card height: 3.05".
+
+### Pattern 3: 5-Column Card Grid
+5 product/feature cards for high-density overviews (e.g., "5대 발표", "5개 핵심 영역").
+Card width: `(9.16 - 0.10*4) / 5 = 1.812"`. Card height: 3.05". Bullets must be very short (1 line each).
+
+### Pattern 4: Left Panel + Right Quad (1+4)
+Left: concept narrative or timeline (~3.20" wide). Right: 2×2 grid of cases (~5.81" wide).
+Use for "축적의 시간 → 압축의 시간" with concept on left, case studies on right.
+
+### Pattern 5: 2-Column Compare (50/50)
+Two big cards side-by-side, e.g. "Modular vs E2E", "Waymo vs Tesla", "2025 vs 2026".
+Card width: `(9.16 - 0.16) / 2 = 4.50"`. Card height: 3.05".
+
+### Pattern 6: Top Strip + Bottom Quad
+Top: 4 small stage cards in horizontal flow with arrows (e.g. "지각 → 인코딩 → 정책 → 액션").
+Bottom: 3-column or 2-column section with deeper detail (e.g. "BC · SFT · RL").
+
+### Pattern 7: Timeline + 2-Column Detail
+Top: horizontal timeline with 4–5 milestone points.
+Bottom: 2-column expansion (e.g. "공장 투입 사례" + "Tesla 손 진화").
+
+### Pattern 8: Incident Catalog + Lessons
+Left: 6 colored tag rows ("스쿨존 사고", "골목길 정체", etc.) with descriptions.
+Right: Operational responses + Insight callout box.
+
+---
+
+## Lessons Learned (from real-world iterations)
+
+These are common issues that have been encountered and resolved in production deck builds. Apply them proactively.
+
+### Text Wrap Issues
+- **Cover subtitle should be 1 line.** Long subtitles like "2026년 4월 주요 업데이트 · Agents, Models, Infrastructure" wrap to 2 lines at 26pt bold and look broken. Use shorter alternatives (e.g., "2026년 4월 주요 업데이트 정리").
+- **Badge pills should hold 1–2 short words.** Labels like "Limited Preview" or "Decisions · Talent" wrap inside the rounded pill. Use "Preview" or "Agentic AI" instead.
+- **Section divider subtitle should fit on 1 line.** Same rule as cover subtitle — at 22pt regular, anything over ~30 Korean chars or ~50 Latin chars will wrap.
+- **Content slide titles cap around 40 Latin characters.** At 26pt bold charSpacing −0.8 in 9.16" width, titles like "Cost Simulation · 100M Token Workload Comparison" (48 chars) wrap to two lines and overlap the subtitle. Drop the secondary clause or shorten — e.g., "Cost Simulation · 100M Token Workload" (37 chars).
+
+### Color & Branding
+- **Subtitle orange `#FF693C` is non-negotiable.** Don't substitute the AWS primary orange `#FF9900` for the content subtitle — they look similar but the AWS template uses the slightly redder `#FF693C` specifically.
+- **Vendor accent colors should be applied sparingly.** A 5-card grid where each card has a different vendor accent is fine. But within a single concept, stick to 1–2 accent colors max.
+- **No slide logo.** Identity comes from the design system (subtitle orange, dark background, Pretendard, copyright string) — never add logo images to slides, regardless of pressure to "make it more AWS-branded."
+
+### Density
+- **Empty bottom thirds are the #1 AI-slide tell.** Always use the 4-column stat band at `y=4.62` to fill the bottom — even if the stats are slightly contrived (e.g., "Q&A →" / "지금부터 자유롭게 질문 받겠습니다"). Better than a blank space.
+- **When in doubt, add a slide.** A 28-slide deck that covers the source thoroughly is better than a 22-slide deck that misses the architecture diagram or the incident analysis.
+
+---
+
+*End of project instructions. Save this file to your project root or share via project knowledge so every new chat picks it up automatically.*
