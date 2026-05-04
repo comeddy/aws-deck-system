@@ -25,13 +25,15 @@ pip install pillow numpy --break-system-packages
 pip install cairosvg --break-system-packages
 ```
 
-### `Asset file not found: /home/claude/aws_logo_white.png`
+### `Asset file not found: /home/claude/title_bg.png` (또는 `section_bg_33.png`)
 
 ```bash
 python skill/scripts/prepare_assets.py
 ```
 
 `/home/claude/` 경로에 직접 생성됩니다. 다른 경로를 사용하려면 build script의 `ASSETS` 객체를 수정하세요.
+
+> **Note**: 슬라이드는 AWS Smile 로고를 표시하지 않으므로 `aws_logo_white.png`는 필수가 아닙니다. `prepare_assets.py`가 생성하더라도 `build_deck.js`에서 참조하지 마세요.
 
 ## 출력 검수
 
@@ -68,20 +70,22 @@ slide.addText(subtitle, {
 });
 ```
 
-### Footer 로고가 늘어나거나 찌그러짐
+### 슬라이드에 AWS Smile 로고가 보임
 
-aspect ratio가 자연 1.62:1이어야 합니다 (smile mark only). Footer 로고는 `w: 0.2830", h: 0.1750"`:
+이 디자인 시스템은 슬라이드에 로고를 **표시하지 않습니다**. 만약 로고가 보인다면 `addFooter()`나 `addCoverSlide()` 안에 남아 있는 `slide.addImage({...logo...})` 호출을 모두 제거하세요:
+
 ```javascript
-slide.addImage({
-  path: ASSETS.logo,
-  x: 0.4200, y: 5.2300,
-  w: 0.2830, h: 0.1750,  // ← 1.62:1 비율 (자연 smile mark)
-});
+// ❌ 이런 호출이 남아 있으면 안 됨
+slide.addImage({ path: ASSETS.logo, ... });
+
+// ✅ Footer는 copyright + page number만 포함
+function addFooter(slide, pageNumOrNull) {
+  slide.addText(COPYRIGHT, { ... });
+  if (pageNumOrNull != null) {
+    slide.addText(String(pageNumOrNull), { ... });
+  }
+}
 ```
-
-Cover hero 로고는 `(8.65", 4.45", 0.92"×0.57")` — 동일한 1.62:1.
-
-`prepare_assets.py`로 생성한 logo는 자동으로 이 비율을 맞추지만, 직접 SVG/PNG를 사용하는 경우 별도 검증 필요. PNG는 외곽 navy padding 박스 없이 smile mark만 투명 배경에 들어 있어야 함.
 
 ### Cover에 페이지 번호가 표시됨
 

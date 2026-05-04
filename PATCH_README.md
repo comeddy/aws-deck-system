@@ -1,17 +1,17 @@
-# AWS Deck System — Logo Sizing Standard Patch
+# AWS Deck System — No-Logo Patch
 
-이 패치는 `aws-deck-system` 리포지토리 전체에 **AWS Smile 로고 사이즈/비율 표준**을 일관되게 반영합니다.
+이 패치는 `aws-deck-system` 리포지토리에서 **AWS Smile 로고를 슬라이드에서 완전히 제거**합니다.
 
 ## 변경 이유
 
-기존 1.0.0 릴리스는 로고 aspect ratio를 **1.5:1로 강제**하고 있었습니다. 그러나 공식 AWS Smile 마크의 자연 비율은 **1.62:1** (smile 부분만 외곽 padding 없이)입니다. 1.5:1로 늘리면 smile mark가 미묘하게 왜곡되고, footer의 작은 로고는 너무 두꺼워 보입니다.
+이전 1.0.0 릴리스는 모든 슬라이드 footer와 커버에 AWS Smile 로고를 렌더링했습니다. 디자인 검토 결과, 슬라이드에서는 로고를 빼고 다음 요소들로 AWS 정체성을 표현하는 것이 더 깔끔하다고 결정했습니다:
 
-사용자(Youngjin Kim) 검증을 통해 다음 사이즈가 시각적으로 완벽하다고 확정되었습니다:
+- `#FF693C` 서브타이틀 오렌지 (AWS 템플릿 정확)
+- `#0E101C` 다크 네이비 콘텐츠 배경
+- Pretendard 타이포그래피
+- 표준 copyright 문자열
 
-| 위치 | 좌표 (x, y) | 크기 (w × h) | aspect |
-|---|---|---|---|
-| **커버 우측 하단 hero 로고** | (8.65", 4.45") | 0.92" × 0.57" | 1.61:1 |
-| **모든 슬라이드 footer 로고** | (0.42", 5.23") | 0.283" × 0.175" | 1.62:1 |
+로고 자체는 brand asset으로 보존되지만, **`build_deck.js`에서 더 이상 참조하지 않습니다**.
 
 ## 적용 방법
 
@@ -42,26 +42,44 @@ cp aws-deck-system-update/samples/physicalai-deck/build.js /path/to/aws-deck-sys
 
 | 파일 | 변경 내용 |
 |---|---|
-| `docs/PROJECT_INSTRUCTIONS.md` | Core Constraints, Type A Cover, Persistent Footer, Reference Implementation, Forbidden 섹션 |
-| `docs/TROUBLESHOOTING.md` | "Footer 로고 stretch" 섹션 |
-| `README.md` | Quick reference 표 |
-| `CHANGELOG.md` | `[Unreleased]` 섹션에 변경 내역 추가 |
-| `skill/SKILL.md` | Core Constraints, asset 설명, Logo Sizing Standard / PNG Generation Standard 섹션 신규 추가, Forbidden |
-| `skill/scripts/build_deck.js` | `addFooter()`, `addCoverSlide()` |
-| `skill/scripts/prepare_assets.py` | 헤더 docstring |
-| `skill/references/design_tokens.md` | Footer Layout 표, Cover slide vertical anchors |
-| `skill/references/qa_checklist.md` | Check #3, #9, 트러블슈팅 표 |
-| `samples/physicalai-deck/build.js` | footer + cover hero logo 사이즈 |
+| `skill/scripts/build_deck.js` | `addFooter()`, `addCoverSlide()`에서 `slide.addImage({path: ASSETS.logo, ...})` 호출 제거. `ASSETS` 객체에서 `logo` 항목 삭제. 헤더 prerequisites 갱신. |
+| `samples/physicalai-deck/build.js` | 동일하게 처리 |
+| `skill/SKILL.md` | Core Constraint #3을 "no slide logo"로 교체. "Logo Sizing Standard"와 "Logo PNG Generation Standard" 섹션 삭제. "Footer Composition (no logo)" 섹션 신설. Forbidden 항목 갱신. |
+| `docs/PROJECT_INSTRUCTIONS.md` | Core #3, Type A Cover, Persistent Footer 표, Reference Implementation 코드, Forbidden 섹션 모두 갱신 |
+| `docs/TROUBLESHOOTING.md` | "Footer 로고 stretch" 섹션 → "슬라이드에 AWS Smile 로고가 보임" 트러블슈팅으로 교체 |
+| `skill/references/design_tokens.md` | Cover slide vertical anchors와 Footer Layout 표에서 logo 행 제거 |
+| `skill/references/qa_checklist.md` | Check #3, #9, #17을 "logo 부재" 검증으로 교체. troubleshooting 표 갱신. |
+| `skill/scripts/prepare_assets.py` | 헤더 docstring에서 `aws_logo_white.png`를 OPTIONAL로 표기 (생성은 계속 가능, 슬라이드에서 사용 안 함) |
+| `README.md` | "핵심 디자인 원칙" 표의 Logo 행 → Branding 행으로 교체. asset tree에서 logo를 optional 표기. |
+| `CHANGELOG.md` | `[Unreleased]` 섹션을 logo-removal 변경 내역으로 재작성 |
 
-## 검증
+## Footer 구성 (변경 후)
 
-이 변경 사항은 다음 deck에서 사용자가 시각적으로 검증한 상태입니다:
-- `frontier-ai-dev-tools-comparison.pptx` (16개 슬라이드)
-- 커버 슬라이드 우측 하단 hero 로고
-- 모든 콘텐츠 슬라이드 좌측 하단 footer 로고
+| Element | x | y | w | h |
+|---|---|---|---|---|
+| Copyright (centered) | 0" | 5.27" | 10.0" | 0.1515" |
+| Page number (right) | 9.40" | 5.27" | 0.20" | 0.18" |
 
-사용자 코멘트: "하단 슬라이드 aws logo 및 첫장 제목 슬라이드내 aws logo 위치 크기, 모양 모두 완벽하다."
+로고 이미지는 어디에도 없습니다.
+
+## Cover 슬라이드 구성 (변경 후)
+
+- Title 44pt bold @ y=1.85"
+- Subtitle 26pt bold @ y=2.65"
+- Presenter 3 lines @ y=4.05/4.32/4.59
+- **NO logo image**
+- Footer (copyright only, no page number)
 
 ## 호환성
 
-이 패치는 기존 deck 빌드에 **breaking change**입니다 (로고 좌표가 바뀌었기 때문). 기존 deck을 다시 빌드하면 로고 위치/크기가 변경됩니다. 새 표준이 더 정확하고 공식 AWS 디자인 가이드라인에 부합하므로, 모든 기존 deck도 재생성하는 것을 권장합니다.
+이 패치는 기존 deck 빌드에 **breaking visual change**입니다. v1.0.0으로 빌드된 기존 deck들은 logo를 표시하지만, 이 패치를 적용한 뒤 다시 빌드하면 logo가 사라집니다. 모든 기존 deck도 재생성하는 것을 권장합니다.
+
+## 보존된 자산
+
+- `assets/aws_logo_white.png` 파일 자체는 brand asset으로 리포지토리에 보존됩니다
+- `prepare_assets.py`는 logo PNG를 계속 생성할 수 있습니다 (legacy/non-deck 용도)
+- 단, `build_deck.js`에서 이 파일을 참조하지 않습니다
+
+## 검증
+
+`grep -rn "ASSETS\.logo" --include="*.js"`로 검색했을 때, 실제 코드에는 `ASSETS.logo` 참조가 남아있지 않습니다. 문서에 남은 언급은 모두 "이렇게 하지 마세요" 또는 "이전에는 이랬다"는 의도적 컨텍스트입니다.

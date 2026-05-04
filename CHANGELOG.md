@@ -12,26 +12,31 @@ Version policy:
 
 ## [Unreleased]
 
-### Changed
-- **AWS Smile logo aspect ratio standardized to natural 1.62:1** (smile mark only, no padding box). Previously stretched to 1.5:1.
-- **Cover hero logo dimensions**: `(8.65", 4.45", 0.92"×0.57")` — was `(8.55", 4.45", 1.05"×0.70")`
-- **Footer logo dimensions**: `(0.4200", 5.2300", 0.2830"×0.1750")` — was `(0.4200", 5.2080", 0.3450"×0.2300")`
+### Removed
+- **AWS Smile logo removed from all slides** (cover hero + footer). The design system no longer renders a logo image; identity comes from `#FF693C` subtitle, `#0E101C` background, Pretendard typography, and the standard copyright string.
+- Removed `addImage` calls for `ASSETS.logo` from `addFooter()` and `addCoverSlide()` in both `skill/scripts/build_deck.js` and `samples/physicalai-deck/build.js`
+- Removed `logo` entry from `ASSETS` object in build scripts
+- Removed "Logo Sizing Standard" and "Logo PNG Generation Standard" sections from `skill/SKILL.md`
 
-### Added
-- New SKILL.md sections: "Logo Sizing Standard" and "Logo PNG Generation Standard" with 7-step transparent-PNG generation procedure
-- Forbidden list entries for non-standard logo sizes and outer-padding-box PNGs
-- Validated against user-provided AWS reference deck
+### Changed
+- `prepare_assets.py` header docstring marks `aws_logo_white.png` as OPTIONAL (still produced for legacy/non-deck use, but unused by build scripts)
+- Forbidden lists in `SKILL.md` and `PROJECT_INSTRUCTIONS.md` now forbid any logo on slides
+- QA checklist #3, #9, #17 rewritten to verify logo absence (not presence)
+- README.md, design_tokens.md, TROUBLESHOOTING.md updated to reflect no-logo branding
+
+### Note for v1.0.0 users
+This is a breaking visual change. Existing decks built with v1.0.0 will display the logo; rebuilding with this version removes it. Re-run `node build_deck.js` to refresh.
 
 ### Files updated
-- `docs/PROJECT_INSTRUCTIONS.md` (lines 23, 36, 63, 173 + Forbidden section)
-- `docs/TROUBLESHOOTING.md` (Footer logo stretch section)
-- `README.md` (Core Constraints table)
-- `skill/SKILL.md` (Core Constraints #3, Step 3, new sections, Forbidden)
-- `skill/scripts/build_deck.js` (`addFooter`, `addCoverSlide`)
+- `docs/PROJECT_INSTRUCTIONS.md` (Core #3, Type A, Persistent Footer, Reference Implementation, Forbidden)
+- `docs/TROUBLESHOOTING.md` (logo stretch → no-logo verification)
+- `README.md` (Branding row, asset tree)
+- `skill/SKILL.md` (Core #3, Step 3, new "Footer Composition" section, Forbidden)
+- `skill/scripts/build_deck.js` (`addFooter`, `addCoverSlide`, ASSETS, header)
 - `skill/scripts/prepare_assets.py` (header docstring)
 - `skill/references/design_tokens.md` (Footer Layout table, Cover anchors)
-- `skill/references/qa_checklist.md` (checks #3, #9, troubleshooting table)
-- `samples/physicalai-deck/build.js` (footer + cover hero)
+- `skill/references/qa_checklist.md` (checks #3, #9, #17, troubleshooting table)
+- `samples/physicalai-deck/build.js` (footer + cover hero, ASSETS)
 
 ## [1.0.0] - 2026-05-03
 

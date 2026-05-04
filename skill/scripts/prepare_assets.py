@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 """
-prepare_assets.py — Generate or extract the 3 required asset files.
+prepare_assets.py — Generate or extract asset files for AWS standard decks.
 
 Outputs to /home/claude/:
-  - aws_logo_white.png   (white AWS Smile mark only, natural 1.62:1 aspect, transparent bg)
-  - title_bg.png         (1920×1080 cover gradient)
-  - section_bg_33.png    (1920×1080 section/closing gradient)
+  - title_bg.png         (1920×1080 cover gradient) — REQUIRED
+  - section_bg_33.png    (1920×1080 section/closing gradient) — REQUIRED
+  - aws_logo_white.png   (white AWS Smile mark only, natural 1.62:1 aspect)
+                         OPTIONAL — slides no longer render the logo, but the
+                         file is still produced for legacy compatibility and
+                         non-deck use cases.
 
 Usage:
     python prepare_assets.py [--svg PATH] [--template PATH] [--force]

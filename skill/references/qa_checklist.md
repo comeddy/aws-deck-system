@@ -18,8 +18,8 @@ pdftoppm -jpeg -r 100 deck.pdf slide
 
 - [ ] **1. Title anchor**: Every content slide has Title at exactly `(0.42", 0.32")` — no drift.
 - [ ] **2. Subtitle anchor**: Every content slide has Subtitle at exactly `(0.42", 0.85")`.
-- [ ] **3. Footer logo**: AWS Smile at `(0.4200", 5.2300", 0.2830"×0.1750")` on every slide.
-- [ ] **4. Copyright centered**: Footer copyright horizontally centered (not left-aligned next to logo).
+- [ ] **3. No logo on slides**: AWS Smile logo is NOT present on any slide (cover, footer, content) — slides intentionally have no logo image.
+- [ ] **4. Copyright centered**: Footer copyright horizontally centered across the full slide width.
 - [ ] **5. Subtitle color**: Content slide subtitle is exactly `#FF693C`, bold, 12pt.
 - [ ] **6. No content overflow**: Every text box fits its container.
 - [ ] **7. Stat band complete**: All four columns filled.
@@ -31,7 +31,7 @@ pdftoppm -jpeg -r 100 deck.pdf slide
   - Title at `(0.42", 1.85")` 44pt bold
   - Subtitle at `(0.42", 2.65")` 26pt bold
   - 3 presenter lines at y=4.05/4.32/4.59
-  - Hero logo at `(8.65", 4.45", 0.92"×0.57")`
+  - NO logo image on cover
 - [ ] **10. No NDA notice** on cover.
 - [ ] **11. No page number on cover**.
 - [ ] **12. Cover subtitle smaller than title** (26pt vs 44pt).
@@ -48,7 +48,7 @@ pdftoppm -jpeg -r 100 deck.pdf slide
   ```
   © 2026, Amazon Web Services, Inc. or its affiliates. All rights reserved. Amazon Confidential and Trademark.
   ```
-- [ ] **17. AWS logo authenticity**: Cover hero + footer logos are official AWS Smile (white, transparent bg).
+- [ ] **17. No logo verification**: Confirm visually (PDF preview) that no AWS Smile logo appears on cover, footer, or any content slide.
 
 ### Content Coverage
 
@@ -87,7 +87,7 @@ If producing both English and Korean versions:
 |---|---|
 | Text overflow in cards | Reduce text or split to 2 slides |
 | Subtitle not orange | Verify `color: C.subtitleOrange` (not `awsOrange`) |
-| Footer logo stretched | Check aspect ratio = natural 1.62:1 (smile mark only); confirm `w: 0.2830", h: 0.1750"` and PNG has no outer navy padding box |
+| Logo accidentally rendered | Remove all `slide.addImage({...logo...})` calls — the design system has no slide logo |
 | Page numbers off-by-one | Use `let pageNum = 1; addFooter(s, ++pageNum)` |
 | Empty bottom third | Add stat band — never skip |
 | Header divider line under title | Remove the line; use 0.53" rhythm |

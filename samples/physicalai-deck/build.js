@@ -34,7 +34,7 @@ const PAD_X = 0.42;
 const COPYRIGHT = "© 2026, Amazon Web Services, Inc. or its affiliates. All rights reserved. Amazon Confidential and Trademark.";
 
 const ASSETS = {
-  logo:      "/home/claude/aws_logo_white.png",
+  // logo asset removed: AWS Smile is no longer rendered on slides
   titleBg:   "/home/claude/title_bg.png",
   sectionBg: "/home/claude/section_bg_33.png",
 };
@@ -42,7 +42,6 @@ const ASSETS = {
 let pageNum = 1;
 
 function addFooter(slide, pageNumOrNull) {
-  slide.addImage({ path: ASSETS.logo, x: 0.4200, y: 5.2300, w: 0.2830, h: 0.1750 });
   slide.addText(COPYRIGHT, {
     x: 0, y: 5.2700, w: SLIDE_W, h: 0.1515,
     fontFace: FONT, fontSize: 4.5, color: C.charcoal, align: "center", margin: 0, valign: "top",
@@ -189,7 +188,7 @@ function addVendorCard(slide, opts) {
   s.addText("Youngjin Kim", { x: 0.42, y: 4.05, w: 6.0, h: 0.30, fontFace: FONT, fontSize: 14, color: C.charcoal, margin: 0 });
   s.addText("Sr. Solutions Architect", { x: 0.42, y: 4.32, w: 6.0, h: 0.30, fontFace: FONT, fontSize: 14, color: C.charcoal, margin: 0 });
   s.addText("AWS Korea", { x: 0.42, y: 4.59, w: 6.0, h: 0.30, fontFace: FONT, fontSize: 14, color: C.charcoal, margin: 0 });
-  s.addImage({ path: ASSETS.logo, x: 8.65, y: 4.45, w: 0.92, h: 0.57 });
+  // AWS Smile logo intentionally omitted from cover (per design decision).
   addFooter(s, null);
   s.addNotes(
     "안녕하세요. AWS Korea의 김영진입니다. " +

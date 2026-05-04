@@ -87,8 +87,7 @@ Subtitle      y = 2.65"
 Presenter L1  y = 4.05"   (Name)
 Presenter L2  y = 4.32"   (Title)
 Presenter L3  y = 4.59"   (Org)
-Hero logo     y = 4.45"   (x=8.65", w=0.92", h=0.57" — natural 1.62:1)
-Footer        y = 5.21"   (NO page number)
+Footer        y = 5.21"   (copyright only — NO logo, NO page number)
 ```
 
 ### Section divider anchors
@@ -140,9 +139,10 @@ const statW = (9.16 - 0.10 * 3) / 4;     // = 2.215"
 
 | Element | x | y | w | h |
 |---|---|---|---|---|
-| AWS Smile logo | 0.4200" | 5.2300" | 0.2830" | 0.1750" |
 | Copyright text (centered) | 0" | 5.2700" | 10.0" (full slide) | 0.1515" |
 | Page number (right) | 9.40" | 5.27" | 0.20" | 0.18" |
+
+The footer carries no logo image — only centered copyright + right-aligned page number.
 
 **Standard copyright string** (do not modify):
 ```

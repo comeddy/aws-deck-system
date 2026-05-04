@@ -20,7 +20,7 @@ You are generating PowerPoint slides (.pptx) that conform to AWS's standard pres
 
 1. **Aspect ratio**: 16:9 ONLY (`LAYOUT_16x9` = 10" × 5.625")
 2. **Typography**: Pretendard ONLY — no fallbacks
-3. **Branding**: Official AWS Smile logo (white variant) — natural **1.62:1 aspect** (smile mark only, no padding box)
+3. **Branding (no slide logo)**: AWS Smile logo is intentionally NOT rendered on slides. Identity comes from `#FF693C` subtitle, `#0E101C` background, Pretendard typography, and the standard copyright string. Do NOT add any logo image.
 4. **Density**: Body zone densely filled. Empty bottom thirds forbidden
 5. **Anchor consistency**: Title at `(0.42", 0.32")`, subtitle at `(0.42", 0.85")` on every content slide
 6. **Speaker scripts**: EVERY slide MUST include Korean script via `addNotes()`
@@ -33,7 +33,7 @@ You are generating PowerPoint slides (.pptx) that conform to AWS's standard pres
 - Title: 44pt bold white at `(0.42", 1.85")`
 - Subtitle: 26pt bold white at `(0.42", 2.65")`
 - Presenter (3 lines): 14pt charcoal at y=4.05/4.32/4.59
-- Hero logo: `(8.65", 4.45", 0.92"×0.57")` — natural 1.62:1 smile mark
+- NO logo image
 - Footer with NO page number
 
 ### Type B — Section Divider
@@ -60,9 +60,10 @@ You are generating PowerPoint slides (.pptx) that conform to AWS's standard pres
 
 | Element | x | y | w | h |
 |---|---|---|---|---|
-| AWS Smile logo | 0.4200" | 5.2300" | 0.2830" | 0.1750" |
 | Copyright (centered) | 0" | 5.2700" | 10.0" | 0.1515" |
 | Page number (right) | 9.40" | 5.27" | 0.20" | 0.18" |
+
+The footer contains **no logo image**. Just centered copyright + right-aligned page number.
 
 Standard copyright (do not modify):
 ```
@@ -139,8 +140,7 @@ Style: Conversational professional 존댓말 ("~입니다", "~겠습니다"). Te
 ❌ Modifying the standard copyright string
 ❌ Bright/colored content slide backgrounds
 ❌ Generic blue/teal palettes
-❌ Logo sizes other than the standard (e.g. `1.05"×0.70"` or `0.345"×0.230"` — these force 1.5:1 and distort the smile mark)
-❌ Logo PNG with outer navy padding box visible (must be smile mark only on transparent bg)
+❌ AWS Smile logo on any slide (cover, footer, or anywhere) — slides intentionally have no logo
 
 ## Generation Approach
 
@@ -172,7 +172,7 @@ const COPYRIGHT = "© 2026, Amazon Web Services, Inc. or its affiliates. All rig
 let pageNum = 1;
 
 function addFooter(slide, pageNumOrNull) {
-  slide.addImage({ path: "/home/claude/aws_logo_white.png", x: 0.4200, y: 5.2300, w: 0.2830, h: 0.1750 });
+  // No logo image — slides intentionally have no AWS Smile logo.
   slide.addText(COPYRIGHT, {
     x: 0, y: 5.2700, w: 10.0, h: 0.1515,
     fontFace: FONT, fontSize: 4.5,

@@ -99,7 +99,7 @@ aws-deck-system/
 │   └── slack_notify.sh             ← Slack 알림
 │
 ├── assets/                         ← 🖼 공식 에셋
-│   ├── aws_logo_white.png
+│   ├── aws_logo_white.png          (optional — 슬라이드에서는 사용 안 함)
 │   ├── title_bg.png
 │   └── section_bg_33.png
 │
@@ -120,7 +120,7 @@ aws-deck-system/
 | **Font** | Pretendard ONLY (no fallbacks) |
 | **Subtitle** | `#FF693C` 오렌지 (AWS template-exact) |
 | **Background** | `#0E101C` 다크 네이비 (콘텐츠 슬라이드) |
-| **Logo** | 공식 AWS Smile (white, natural 1.62:1 aspect — smile mark only) |
+| **Branding** | 슬라이드에 AWS Smile 로고 없음 (서브타이틀 컬러·다크 배경·Pretendard·copyright으로 정체성 표현) |
 | **Page numbering** | `let pageNum = 1; ++pageNum` 자동 카운터 |
 | **Speaker scripts** | 모든 슬라이드에 한국어 발표 스크립트 (`addNotes`) |
 
