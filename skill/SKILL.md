@@ -20,7 +20,7 @@ Confirm with the user before applying. Use defaults only when explicitly told to
 
 1. **Aspect ratio**: 16:9 ONLY (`LAYOUT_16x9` = 10" × 5.625")
 2. **Typography**: Pretendard ONLY — no Inter, DM Sans, Helvetica, Noto Sans, Apple SD Gothic, or Arial fallbacks
-3. **Branding**: Official AWS Smile logo (white variant), 1.5:1 aspect — never text wordmarks or AI approximations
+3. **Branding**: Official AWS Smile logo (white variant), natural 1.62:1 aspect (smile mark only, no padding box) — never text wordmarks or AI approximations
 4. **Density**: Body zone must be filled densely. Empty bottom thirds are forbidden — use stat band
 5. **Anchor consistency**: Title at `(0.42", 0.32")` and subtitle at `(0.42", 0.85")` on every content slide
 6. **Speaker scripts**: EVERY slide MUST include Korean script via `addNotes()`
@@ -44,7 +44,7 @@ Ask for:
 
 ### Step 3: Prepare assets
 Run `scripts/prepare_assets.py` to ensure these exist in `/home/claude/`:
-- `aws_logo_white.png` (1.5:1 aspect)
+- `aws_logo_white.png` (natural 1.62:1 aspect, transparent bg, smile mark only)
 - `title_bg.png` (1920×1080 cover gradient)
 - `section_bg_33.png` (1920×1080 section/closing gradient)
 
@@ -75,6 +75,29 @@ Run through `references/qa_checklist.md` (18 checks). Convert to PDF → JPG and
 | **D. Closing** | `section_bg_33.png` | "Thank you." 44pt @ y=2.50 (English-only) | (none) | with page num |
 
 For full anchor coordinates and design tokens, see [`references/design_tokens.md`](references/design_tokens.md).
+
+## Logo Sizing Standard (validated — DO NOT change)
+
+The AWS Smile logo PNG must be the natural smile-mark proportion (1.62:1 aspect, no outer padding). Apply these exact dimensions:
+
+| Placement | x | y | w | h |
+|---|---|---|---|---|
+| **Cover (large, bottom-right)** | 8.65" | 4.45" | 0.92" | 0.57" |
+| **Footer (every slide except cover)** | 0.42" | 5.23" | 0.283" | 0.175" |
+
+These values are baked into `addCoverSlide()` and `addFooter()` in `scripts/build_deck.js`. If you ever generate a custom slide, use the same values — do not improvise sizes like `1.05" × 0.70"` or `0.345" × 0.230"` (those force a 1.5:1 aspect and stretch the smile mark).
+
+## Logo PNG Generation Standard
+
+When generating `aws_logo_white.png` from the official AWS-Cloud-logo SVG:
+
+1. **SVG → PDF** via `libreoffice --headless --convert-to pdf`
+2. **PDF → PNG** at ≥600 DPI via `pdftoppm -r 600`
+3. **Crop pass 1**: bbox of the navy `#232F3E` rectangle (removes outer PDF canvas)
+4. **Crop pass 2**: bbox of white pixels only (removes navy padding around the smile mark)
+5. **Build alpha mask**: navy → transparent, white → opaque white
+6. **Resize RGB and alpha separately** then merge — `Image.resize()` on full RGBA with LANCZOS corrupts the alpha channel
+7. **Output**: ~1500×930 transparent PNG, 1.613:1 aspect, smile mark only
 
 ## Design Tokens (paste into every build)
 
@@ -118,6 +141,8 @@ For templates and tone calibration, see [`references/speaker_script_guide.md`](r
 ❌ Modifying the standard copyright string
 ❌ Bright/colored content slide backgrounds
 ❌ Generic blue/teal palettes
+❌ Logo sizes other than the standard (e.g. `1.05" × 0.70"` or `0.345" × 0.230"` — these force 1.5:1 and distort the smile mark)
+❌ Logo PNG with outer navy padding box visible (must be smile mark only on transparent bg)
 
 ## Reference Files
 

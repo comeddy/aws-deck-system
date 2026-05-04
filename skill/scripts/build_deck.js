@@ -83,11 +83,14 @@ let pageNum = 1;
 // REUSABLE COMPONENTS
 // ═══════════════════════════════════════════════════════════════════════
 
-/** Standard footer. Pass null on cover for no page number. */
+/** Standard footer. Pass null on cover for no page number.
+ *  Logo size standard (validated): 0.283" × 0.175" at (0.42", 5.23").
+ *  Aspect ratio 1.62:1 matches the natural AWS Smile mark proportion.
+ */
 function addFooter(slide, pageNumOrNull) {
   slide.addImage({
     path: ASSETS.logo,
-    x: 0.4200, y: 5.2080, w: 0.3450, h: 0.2300,
+    x: 0.4200, y: 5.2300, w: 0.2830, h: 0.1750,
   });
   slide.addText(COPYRIGHT, {
     x: 0, y: 5.2700, w: SLIDE_W, h: 0.1515,
@@ -195,9 +198,11 @@ function addCoverSlide(opts) {
     x: 0.42, y: 4.59, w: 6.0, h: 0.30,
     fontFace: FONT, fontSize: 14, color: C.charcoal, margin: 0,
   });
+  // Cover logo standard (validated): 0.92" × 0.57" at (8.65", 4.45").
+  // Aspect ratio 1.62:1 matches the natural AWS Smile mark proportion.
   s.addImage({
     path: ASSETS.logo,
-    x: 8.55, y: 4.45, w: 1.05, h: 0.70,
+    x: 8.65, y: 4.45, w: 0.92, h: 0.57,
   });
   addFooter(s, null);  // ← Cover gets NO page number
   s.addNotes(opts.script || "");

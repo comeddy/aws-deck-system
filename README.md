@@ -120,7 +120,7 @@ aws-deck-system/
 | **Font** | Pretendard ONLY (no fallbacks) |
 | **Subtitle** | `#FF693C` 오렌지 (AWS template-exact) |
 | **Background** | `#0E101C` 다크 네이비 (콘텐츠 슬라이드) |
-| **Logo** | 공식 AWS Smile (white, 1.5:1 aspect) |
+| **Logo** | 공식 AWS Smile (white, natural 1.62:1 aspect — smile mark only) |
 | **Page numbering** | `let pageNum = 1; ++pageNum` 자동 카운터 |
 | **Speaker scripts** | 모든 슬라이드에 한국어 발표 스크립트 (`addNotes`) |
 

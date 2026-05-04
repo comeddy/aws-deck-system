@@ -70,16 +70,18 @@ slide.addText(subtitle, {
 
 ### Footer 로고가 늘어나거나 찌그러짐
 
-aspect ratio가 1.5:1이어야 합니다 (`w: 0.3450", h: 0.2300"`):
+aspect ratio가 자연 1.62:1이어야 합니다 (smile mark only). Footer 로고는 `w: 0.2830", h: 0.1750"`:
 ```javascript
 slide.addImage({
   path: ASSETS.logo,
-  x: 0.4200, y: 5.2080,
-  w: 0.3450, h: 0.2300,  // ← 1.5:1 비율
+  x: 0.4200, y: 5.2300,
+  w: 0.2830, h: 0.1750,  // ← 1.62:1 비율 (자연 smile mark)
 });
 ```
 
-`prepare_assets.py`로 생성한 logo는 자동으로 이 비율을 맞추지만, 직접 SVG/PNG를 사용하는 경우 별도 검증 필요.
+Cover hero 로고는 `(8.65", 4.45", 0.92"×0.57")` — 동일한 1.62:1.
+
+`prepare_assets.py`로 생성한 logo는 자동으로 이 비율을 맞추지만, 직접 SVG/PNG를 사용하는 경우 별도 검증 필요. PNG는 외곽 navy padding 박스 없이 smile mark만 투명 배경에 들어 있어야 함.
 
 ### Cover에 페이지 번호가 표시됨
 

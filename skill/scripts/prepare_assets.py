@@ -3,7 +3,7 @@
 prepare_assets.py — Generate or extract the 3 required asset files.
 
 Outputs to /home/claude/:
-  - aws_logo_white.png   (white AWS Smile, 1.5:1 aspect)
+  - aws_logo_white.png   (white AWS Smile mark only, natural 1.62:1 aspect, transparent bg)
   - title_bg.png         (1920×1080 cover gradient)
   - section_bg_33.png    (1920×1080 section/closing gradient)
 

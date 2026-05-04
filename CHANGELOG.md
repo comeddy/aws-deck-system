@@ -12,6 +12,27 @@ Version policy:
 
 ## [Unreleased]
 
+### Changed
+- **AWS Smile logo aspect ratio standardized to natural 1.62:1** (smile mark only, no padding box). Previously stretched to 1.5:1.
+- **Cover hero logo dimensions**: `(8.65", 4.45", 0.92"×0.57")` — was `(8.55", 4.45", 1.05"×0.70")`
+- **Footer logo dimensions**: `(0.4200", 5.2300", 0.2830"×0.1750")` — was `(0.4200", 5.2080", 0.3450"×0.2300")`
+
+### Added
+- New SKILL.md sections: "Logo Sizing Standard" and "Logo PNG Generation Standard" with 7-step transparent-PNG generation procedure
+- Forbidden list entries for non-standard logo sizes and outer-padding-box PNGs
+- Validated against user-provided AWS reference deck
+
+### Files updated
+- `docs/PROJECT_INSTRUCTIONS.md` (lines 23, 36, 63, 173 + Forbidden section)
+- `docs/TROUBLESHOOTING.md` (Footer logo stretch section)
+- `README.md` (Core Constraints table)
+- `skill/SKILL.md` (Core Constraints #3, Step 3, new sections, Forbidden)
+- `skill/scripts/build_deck.js` (`addFooter`, `addCoverSlide`)
+- `skill/scripts/prepare_assets.py` (header docstring)
+- `skill/references/design_tokens.md` (Footer Layout table, Cover anchors)
+- `skill/references/qa_checklist.md` (checks #3, #9, troubleshooting table)
+- `samples/physicalai-deck/build.js` (footer + cover hero)
+
 ## [1.0.0] - 2026-05-03
 
 ### Added
