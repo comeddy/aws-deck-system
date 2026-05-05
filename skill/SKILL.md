@@ -78,10 +78,12 @@ For full anchor coordinates and design tokens, see [`references/design_tokens.md
 ## Footer Composition (no logo)
 
 Slides display only:
-- **Centered copyright** at `(0", 5.27", 10.0", 0.1515")`, 4.5pt charcoal
-- **Right-aligned page number** at `(9.40", 5.27")`, 6pt — auto-incremented; cover gets `null`
+- **Left-aligned copyright** at `(0.42", 5.27", 8.0", 0.22")`, **8pt** charcoal, `align: left`, `valign: middle`
+- **Right-aligned page number** at `(9.30", 5.27", 0.30", 0.22")`, **8pt**, `align: right`, `valign: middle` — auto-incremented; cover gets `null`
 
 The AWS Smile logo is **not rendered**. Do not add `slide.addImage(...)` calls for the logo in any helper function or content slide.
+
+> **v1.2 footer change**: Earlier specs used `fontSize: 4.5pt`/`6pt` with `h: 0.1515"`/`0.18"`, `valign: top`, and centered copyright spanning the full slide width. Those are deprecated — use **8pt** for both copyright and page number, **height 0.22"**, **valign middle**, and **left-align copyright** at `x: PAD_X (0.42")`, `w: 8.0"` so footer text is readable, vertically centered, and starts at the same left margin as titles.
 
 ## Design Tokens (paste into every build)
 
@@ -94,7 +96,7 @@ const C = {
   // openaiGreen, alibabaOrange, teslaRed, hyundaiBlue, anthropicCoral
 };
 const FONT = "Pretendard";
-const COPYRIGHT = "© 2026, Amazon Web Services, Inc. or its affiliates. All rights reserved. Amazon Confidential and Trademark.";
+const COPYRIGHT = "© 2026, Amazon Web Services, Inc. or its affiliates. All rights reserved.";
 ```
 
 ## Korean Speaker Script Rules
@@ -106,6 +108,35 @@ Every slide's `addNotes()` must contain Korean script:
 - **Closing**: 2–3 sentences (Q&A invitation)
 
 Style: Conversational professional 존댓말 ("~입니다", "~겠습니다"). Technical terms: English first, then Korean explanation.
+
+### Abbreviation Glossary (mandatory at end of every note)
+
+After the spoken script, append a blank line and a glossary block listing every abbreviation used **on that slide** (cover, body text, stat band, or in the spoken text itself). Each entry starts with a bullet (`• `) so the presenter can scan one line at a time:
+
+```
+• 약어(Full Name): 한 줄 설명
+```
+
+Example:
+```
+• RDF(Resource Description Framework): 웹 상에서 자원(Resource)을 표현하고 교환하기 위한 표준 모델로, 데이터를 주제·술어·객체의 삼중 구조로 명확히 표현하는 방법
+• OWL(Web Ontology Language): 클래스·속성·논리 공리로 도메인을 정의하고 자동 추론을 가능하게 하는 W3C 온톨로지 언어
+```
+
+Rules:
+- Include only abbreviations that are **domain-specific or recently introduced** (e.g., RDF, OWL, SPARQL, SHACL, IRI, DL, MCP, RAG, RLHF, A2A).
+- **Skip widely-known IT abbreviations** that AWS Solutions Architects already use daily — listing them adds noise without helping the presenter:
+  - Cloud / AWS: AWS, IAM, EC2, S3, VPC, EKS, ECS, RDS
+  - Web / Network: HTTP, HTTPS, REST, URI, URL, DNS, TLS, IP, TCP, UDP
+  - Data / Lang: JSON, XML, YAML, CSV, HTML, CSS, SQL
+  - Dev tooling: API, SDK, IDE, CLI, GUI, OS, DB
+  - Process / KPI: MVP, PoC, PR, PM, Q&A, KPI, ROI, OKR, LOC, SLA
+  - Auth: JWT, OAuth, MFA, SSO
+- Do **not** include product names that are not abbreviations (e.g., Bedrock, Cursor, Lovable, Composer).
+- One abbreviation per line; in Korean; concise (one sentence).
+- If the slide has no qualifying abbreviations, omit the glossary block entirely.
+- Place the glossary at the end of the note so spoken delivery stays clean.
+- **Rule of thumb**: if every AWS SA in the room could spell out the full name unaided, omit it.
 
 For templates and tone calibration, see [`references/speaker_script_guide.md`](references/speaker_script_guide.md).
 

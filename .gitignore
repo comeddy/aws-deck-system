@@ -1,0 +1,29 @@
+# Node.js dependencies
+node_modules/
+
+# Local build artifacts (pptxgenjs build dirs, generated assets)
+build/
+
+# Generated presentation outputs
+output/
+
+# Temporary mirror used during skill rollout (do not publish)
+aws-deck-system-update/
+
+# OS / editor metadata
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Logs and runtime
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.local
+.env.*.local

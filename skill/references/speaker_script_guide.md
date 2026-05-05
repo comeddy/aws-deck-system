@@ -10,6 +10,7 @@
 4. **Paraphrase, don't read bullets verbatim** — context를 더해야 함
 5. **Technical terms**: English → Korean explanation. e.g., "VLA, 즉 Vision-Language-Action 모델은..."
 6. **End with transition or implication** — facts만으로 끝나지 않게
+7. **Abbreviation glossary at end** — append every abbreviation used on the slide with full name + 한 줄 설명 (see "Abbreviation Glossary Block" below)
 
 ## Speaking Time Targets
 
@@ -100,6 +101,39 @@
 감사합니다.
 ```
 
+## Abbreviation Glossary Block
+
+After the spoken script, append a blank line and a glossary listing every abbreviation that appears on the slide (in the body, stat band, or spoken text). The glossary helps the presenter recall meanings while reading and is read off-script during Q&A.
+
+**Format** — each entry starts with `• ` (bullet + space) for one-line scannability:
+```
+• 약어(Full Name): 한 줄 설명
+```
+
+**Realistic example** (placed at the end of an `addNotes("...")` string):
+```
+... [last sentence of spoken script] ...
+
+• RDF(Resource Description Framework): 웹 상에서 자원(Resource)을 표현하고 교환하기 위한 표준 모델로, 데이터를 주제·술어·객체의 삼중 구조로 명확히 표현하는 방법
+• SPARQL(SPARQL Protocol and RDF Query Language): RDF 그래프를 조회·갱신하는 W3C 표준 쿼리 언어
+```
+
+**Rules**
+- Include only abbreviations that are **domain-specific or recently introduced** (e.g., RDF, OWL, SPARQL, SHACL, IRI, DL, MCP, RAG, RLHF, A2A).
+- **Skip widely-known IT abbreviations** that AWS Solutions Architects already use daily — listing them adds noise without helping the presenter:
+  - Cloud / AWS: AWS, IAM, EC2, S3, VPC, EKS, ECS, RDS
+  - Web / Network: HTTP, HTTPS, REST, URI, URL, DNS, TLS, IP, TCP, UDP
+  - Data / Lang: JSON, XML, YAML, CSV, HTML, CSS, SQL
+  - Dev tooling: API, SDK, IDE, CLI, GUI, OS, DB
+  - Process / KPI: MVP, PoC, PR, PM, Q&A, KPI, ROI, OKR, LOC, SLA
+  - Auth: JWT, OAuth, MFA, SSO
+- Do **not** include product names that aren't abbreviations (Bedrock, Cursor, Lovable, Composer).
+- One entry per line, in Korean, one sentence each.
+- If the slide contains no qualifying abbreviations, omit the glossary entirely.
+- Place the glossary **after** the spoken script so delivery stays clean.
+- Repeat the same abbreviation across slides if it reappears — each slide's note is self-contained.
+- **Rule of thumb**: if every AWS SA in the room could spell out the full name unaided, omit it.
+
 ## Tone Calibration
 
 ### Too stiff (avoid)
@@ -142,3 +176,4 @@
 - [ ] 마지막 문장이 transition 또는 시사점
 - [ ] 카드/불릿을 그대로 읽지 않음
 - [ ] 1-2 문장의 "so what" 포함
+- [ ] **약어 용어집 블록**: 슬라이드에 등장하는 모든 약어가 `약어(Full Name): 한 줄 설명` 형식으로 노트 끝에 정리됨

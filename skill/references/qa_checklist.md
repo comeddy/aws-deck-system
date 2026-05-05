@@ -46,7 +46,7 @@ pdftoppm -jpeg -r 100 deck.pdf slide
 
 - [ ] **16. Copyright string exact**:
   ```
-  © 2026, Amazon Web Services, Inc. or its affiliates. All rights reserved. Amazon Confidential and Trademark.
+  © 2026, Amazon Web Services, Inc. or its affiliates. All rights reserved.
   ```
 - [ ] **17. No logo verification**: Confirm visually (PDF preview) that no AWS Smile logo appears on cover, footer, or any content slide.
 

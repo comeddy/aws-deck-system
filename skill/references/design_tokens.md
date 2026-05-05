@@ -61,8 +61,8 @@ const C = {
 | Release tag | 7.8pt | bold | 0 |
 | Stat label | 7.5pt | regular | 0 |
 | Badge | 6.8pt | bold | 1 |
-| Page number | 6pt | regular | 0 |
-| Copyright | 4.5pt | regular | 0 |
+| Page number | 8pt | regular | 0 |
+| Copyright | 8pt | regular | 0 |
 
 **Font**: `Pretendard` for ALL text. No fallbacks.
 
@@ -137,16 +137,18 @@ const statW = (9.16 - 0.10 * 3) / 4;     // = 2.215"
 
 ## Footer Layout
 
-| Element | x | y | w | h |
-|---|---|---|---|---|
-| Copyright text (centered) | 0" | 5.2700" | 10.0" (full slide) | 0.1515" |
-| Page number (right) | 9.40" | 5.27" | 0.20" | 0.18" |
+| Element | x | y | w | h | Style |
+|---|---|---|---|---|---|
+| Copyright text (left-aligned) | 0.42" (`PAD_X`) | 5.27" | 8.0" | 0.22" | **8pt** Pretendard, charcoal `#E2E4EC`, `align: left`, `valign: middle` |
+| Page number (right-aligned) | 9.30" | 5.27" | 0.30" | 0.22" | **8pt** Pretendard, charcoal, `align: right`, `valign: middle` — omit on cover |
 
-The footer carries no logo image — only centered copyright + right-aligned page number.
+The footer carries no logo image — only left-aligned copyright + right-aligned page number.
+
+> **v1.2 footer change**: Earlier specs used 4.5pt centered copyright at full slide width with `h: 0.1515"` and 6pt page number with `h: 0.18"` and `valign: top`. Those are deprecated for readability — use the values in the table above.
 
 **Standard copyright string** (do not modify):
 ```
-© 2026, Amazon Web Services, Inc. or its affiliates. All rights reserved. Amazon Confidential and Trademark.
+© 2026, Amazon Web Services, Inc. or its affiliates. All rights reserved.
 ```
 
 ## Card Component Anatomy

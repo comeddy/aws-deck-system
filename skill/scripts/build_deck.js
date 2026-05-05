@@ -65,7 +65,7 @@ const C = {
 const FONT     = "Pretendard";
 const SLIDE_W  = 10.0;
 const PAD_X    = 0.42;
-const COPYRIGHT = "© 2026, Amazon Web Services, Inc. or its affiliates. All rights reserved. Amazon Confidential and Trademark.";
+const COPYRIGHT = "© 2026, Amazon Web Services, Inc. or its affiliates. All rights reserved.";
 
 const ASSETS = {
   // logo asset removed: AWS Smile is no longer rendered on slides
@@ -85,19 +85,19 @@ let pageNum = 1;
 
 /** Standard footer. Pass null on cover for no page number.
  *  AWS Smile logo intentionally omitted (per design decision).
- *  Footer contains only centered copyright + right-aligned page number.
+ *  Footer contains only left-aligned copyright + right-aligned page number.
  */
 function addFooter(slide, pageNumOrNull) {
   slide.addText(COPYRIGHT, {
-    x: 0, y: 5.2700, w: SLIDE_W, h: 0.1515,
-    fontFace: FONT, fontSize: 4.5,
-    color: C.charcoal, align: "center", margin: 0, valign: "top",
+    x: PAD_X, y: 5.2700, w: 8.0, h: 0.22,
+    fontFace: FONT, fontSize: 8,
+    color: C.charcoal, align: "left", margin: 0, valign: "middle",
   });
   if (pageNumOrNull != null) {
     slide.addText(String(pageNumOrNull), {
-      x: 9.40, y: 5.27, w: 0.20, h: 0.18,
-      fontFace: FONT, fontSize: 6,
-      color: C.charcoal, align: "right", margin: 0,
+      x: 9.30, y: 5.27, w: 0.30, h: 0.22,
+      fontFace: FONT, fontSize: 8,
+      color: C.charcoal, align: "right", margin: 0, valign: "middle",
     });
   }
 }
