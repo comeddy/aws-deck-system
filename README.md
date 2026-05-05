@@ -14,17 +14,17 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  📦 GitHub Repo (Single Source of Truth)  ← 이 레포             │
-│      └── 모든 명세 · 토큰 · 패턴 · 스크립트의 정본              │
-│                                                                  │
-│  🤖 Anthropic Skill (skill/)                                     │
-│      └── Claude가 자동으로 트리거하는 패키징                    │
-│                                                                  │
-│  🎨 Golden Sample Decks (samples/)                               │
-│      └── 7가지 패턴이 모두 적용된 reference 결과물              │
-│                                                                  │
+│  📦 GitHub Repo (Single Source of Truth)  ← 이 레포               │
+│      └── 모든 명세 · 토큰 · 패턴 · 스크립트의 정본                      │
+│                                                                 │
+│  🤖 Anthropic Skill (skill/)                                    │
+│      └── Claude가 자동으로 트리거하는 패키징                           │
+│                                                                 │
+│  🎨 Golden Sample Decks (samples/)                              │
+│      └── 7가지 패턴이 모두 적용된 reference 결과물                     │
+│                                                                 │
 │  💬 Slack 채널 (#aws-deck-automation)                            │
-│      └── 릴리즈 자동 공지 · Q&A · 사용 사례 공유                │
+│      └── 릴리즈 자동 공지 · Q&A · 사용 사례 공유                       │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
