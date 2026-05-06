@@ -179,7 +179,7 @@ function addVendorCard(slide, opts) {
   s.background = { path: ASSETS.titleBg };
   s.addText("Physical AI on AWS", {
     x: 0.42, y: 1.85, w: 8.5, h: 0.85,
-    fontFace: FONT, fontSize: 44, bold: true, color: C.ink, charSpacing: -1.5, margin: 0,
+    fontFace: FONT, fontSize: 40, bold: true, color: C.ink, charSpacing: -1.5, margin: 0,
   });
   s.addText("From Simulation to Sim-to-Real Deployment", {
     x: 0.42, y: 2.65, w: 8.5, h: 0.55,

@@ -174,7 +174,7 @@ function addCoverSlide(opts) {
   s.background = { path: ASSETS.titleBg };
   s.addText(opts.title, {
     x: 0.42, y: 1.85, w: 8.5, h: 0.85,
-    fontFace: FONT, fontSize: 44, bold: true,
+    fontFace: FONT, fontSize: 40, bold: true,
     color: C.ink, charSpacing: -1.5, margin: 0,
   });
   s.addText(opts.subtitle, {

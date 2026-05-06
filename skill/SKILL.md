@@ -68,7 +68,7 @@ Run through `references/qa_checklist.md` (18 checks). Convert to PDF → JPG and
 
 | Type | Background | Title | Subtitle | Footer |
 |---|---|---|---|---|
-| **A. Cover** | `title_bg.png` | 44pt bold @ y=1.85 | 26pt bold @ y=2.65 | NO page num |
+| **A. Cover** | `title_bg.png` | 40pt bold @ y=1.85 | 26pt bold @ y=2.65 | NO page num |
 | **B. Section divider** | `section_bg_33.png` | 40pt regular @ y=2.30 | 22pt regular @ y=2.95 | with page num |
 | **C. Content** | solid `#0E101C` | 26pt bold @ y=0.32 | 12pt bold orange @ y=0.85 | with page num |
 | **D. Closing** | `section_bg_33.png` | "Thank you." 44pt @ y=2.50 (English-only) | (none) | with page num |
