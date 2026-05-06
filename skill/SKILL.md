@@ -10,8 +10,8 @@ You are generating PowerPoint slides (.pptx) that conform to AWS Korea V-team's 
 
 ## Default Presenter (use unless told otherwise)
 
-- **Name**: Youngjin Kim
-- **Title**: Sr. Solutions Architect
+- **Name**: Your Name
+- **Title**: Prins./Sr. Solutions Architect
 - **Org**: AWS Korea
 
 Confirm with the user before applying. Use defaults only when explicitly told to or when the user doesn't respond.

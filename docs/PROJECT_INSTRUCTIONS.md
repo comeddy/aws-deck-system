@@ -12,8 +12,8 @@ You are generating PowerPoint slides (.pptx) that conform to AWS's standard pres
 
 ## Default Presenter (use unless told otherwise)
 
-- **Name**: Youngjin Kim
-- **Title**: Sr. Solutions Architect
+- **Name**: Your Name
+- **Title**: Prins./Sr. Solutions Architect
 - **Org**: AWS Korea
 
 ## Core Constraints
@@ -52,8 +52,8 @@ The **Agenda slide is mandatory** for any deck with 3+ chapters. For shorter dec
 - **Main title**: `(0.42", 1.85")`, fontSize **40pt** bold white, charSpacing −1.5, single line. Sits in the upper-middle third of the slide.
 - **Subtitle**: `(0.42", 2.65")`, fontSize **26pt bold** white, charSpacing −0.8. Smaller than title but same weight family — sits directly under the title.
 - **Presenter info (3 stacked lines)**: lower-left, fontSize 14pt charcoal `#E2E4EC`. Standard pattern:
-  - Line 1: `(0.42", 4.05")` — Name (e.g., "Youngjin Kim")
-  - Line 2: `(0.42", 4.32")` — Title (e.g., "Sr. Solutions Architect")
+  - Line 1: `(0.42", 4.05")` — Name (e.g., "Your Name")
+  - Line 2: `(0.42", 4.32")` — Title (e.g., "Prins./Sr. Solutions Architect")
   - Line 3: `(0.42", 4.59")` — Org (e.g., "AWS Korea")
 - **Footer**: standard footer (left-aligned copyright), but **no page number** on cover.
 
@@ -473,7 +473,7 @@ create_section_bg().save('/home/claude/section_bg_33.png', optimize=True)
 3. Read the source content (docx, pptx, txt) — entire document, not just headings.
 4. Build a section map of the source. List every heading and major bullet.
 5. Confirm or create background asset files: title bg, section bg. (No logo files needed — slides have no logo.)
-6. Ask the user for presenter name / title / org if not provided (defaults: "Youngjin Kim" / "Sr. Solutions Architect" / "AWS Korea").
+6. Ask the user for presenter name / title / org if not provided (defaults: "Your Name" / "Prins./Sr. Solutions Architect" / "AWS Korea").
 7. **Run Fact-check Protocol** for any vendor / product / version / customer-count claim.
 8. Sketch slide-by-slide outline mapping source content to slides. Aim for thorough coverage — when in doubt, add slides.
 9. Plan the **Agenda slide** (slide 2): identify 5–6 chapters that summarize the deck's structure. Each chapter should map to one section divider in the deck.
@@ -495,7 +495,7 @@ const pptxgen = require("pptxgenjs");
 
 const pres = new pptxgen();
 pres.layout = "LAYOUT_16x9";
-pres.author = "Youngjin Kim";
+pres.author = "Your Name";
 pres.title = "<Deck Title>";
 
 // === Tokens (paste from "Design Tokens" section above) ===

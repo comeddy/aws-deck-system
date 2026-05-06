@@ -24,7 +24,7 @@ const pptxgen = require("pptxgenjs");
 
 const pres = new pptxgen();
 pres.layout = "LAYOUT_16x9";
-pres.author = "Youngjin Kim";
+pres.author = "Your Name";
 pres.title  = "AWS Standard Deck";
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -240,10 +240,10 @@ function addClosingSlide(script) {
 addCoverSlide({
   title: "AWS Standard Deck",
   subtitle: "Reference Build Skeleton",
-  presenterName: "Youngjin Kim",
-  presenterTitle: "Sr. Solutions Architect",
+  presenterName: "Your Name",
+  presenterTitle: "Prins./Sr. Solutions Architect",
   presenterOrg: "AWS Korea",
-  script: "안녕하세요. AWS Korea의 김영진입니다. 오늘은 AWS Standard Deck의 레퍼런스 빌드 구조를 소개드리겠습니다.",
+  script: "안녕하세요. AWS Korea의 [발표자]입니다. 오늘은 AWS Standard Deck의 레퍼런스 빌드 구조를 소개드리겠습니다.",
 });
 
 addSectionSlide("Part 1", "Layout Patterns Overview",

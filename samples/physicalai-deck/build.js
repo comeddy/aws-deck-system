@@ -15,7 +15,7 @@ const fs = require("fs");
 
 const pres = new pptxgen();
 pres.layout = "LAYOUT_16x9";
-pres.author = "Youngjin Kim";
+pres.author = "Your Name";
 pres.title  = "Physical AI on AWS";
 
 const C = {
@@ -185,13 +185,13 @@ function addVendorCard(slide, opts) {
     x: 0.42, y: 2.65, w: 8.5, h: 0.55,
     fontFace: FONT, fontSize: 26, bold: true, color: C.ink, charSpacing: -0.8, margin: 0,
   });
-  s.addText("Youngjin Kim", { x: 0.42, y: 4.05, w: 6.0, h: 0.30, fontFace: FONT, fontSize: 14, color: C.charcoal, margin: 0 });
-  s.addText("Sr. Solutions Architect", { x: 0.42, y: 4.32, w: 6.0, h: 0.30, fontFace: FONT, fontSize: 14, color: C.charcoal, margin: 0 });
+  s.addText("Your Name", { x: 0.42, y: 4.05, w: 6.0, h: 0.30, fontFace: FONT, fontSize: 14, color: C.charcoal, margin: 0 });
+  s.addText("Prins./Sr. Solutions Architect", { x: 0.42, y: 4.32, w: 6.0, h: 0.30, fontFace: FONT, fontSize: 14, color: C.charcoal, margin: 0 });
   s.addText("AWS Korea", { x: 0.42, y: 4.59, w: 6.0, h: 0.30, fontFace: FONT, fontSize: 14, color: C.charcoal, margin: 0 });
   // AWS Smile logo intentionally omitted from cover (per design decision).
   addFooter(s, null);
   s.addNotes(
-    "안녕하세요. AWS Korea의 김영진입니다. " +
+    "안녕하세요. AWS Korea의 [발표자]입니다. " +
     "오늘은 'Physical AI on AWS'라는 주제로 말씀드리고자 합니다. " +
     "Foundation Model의 발전이 시뮬레이션과 로보틱스 영역까지 확장되면서 " +
     "완전히 새로운 산업 표준이 만들어지고 있는 시점입니다. " +

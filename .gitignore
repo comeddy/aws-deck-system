@@ -3,6 +3,7 @@ node_modules/
 
 # Local build artifacts (pptxgenjs build dirs, generated assets)
 build/
+skill.zip
 
 # Generated presentation outputs
 output/
