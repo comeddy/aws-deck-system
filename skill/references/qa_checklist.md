@@ -37,9 +37,18 @@ pdftoppm -jpeg -r 100 deck.pdf slide
 - [ ] **12. Cover subtitle smaller than title** (26pt vs 44pt).
 - [ ] **13. 3-line presenter info** (Name / Title / Org), not single line.
 
+### Agenda (Type E)
+
+- [ ] **A1. Agenda present at slide 2** for any deck with 3+ chapters (or 10+ total slides).
+- [ ] **A2. Title is exactly "Agenda"** at 26pt bold — no Korean "목차" suffix, no orange subtitle.
+- [ ] **A3. Chapter count is 5 or 6** with correct geometry: 5 → `yTop=1.20, chapterH=0.72`; 6 → `yTop=1.08, chapterH=0.64`.
+- [ ] **A4. Hierarchy preserved**: chapter num 22pt bold > title 14pt bold > keywords 9pt.
+- [ ] **A5. Color-coded chapter numbers** from the standard palette (metaBlue / googleBlue / subtitleOrange / nvidiaGreen / amazonOrange / anthropicCoral).
+- [ ] **A6. Minimal style enforced**: NO card backgrounds, NO accent bars, NO page-number hints (`p.7 →`), NO stat band.
+
 ### Section & Closing
 
-- [ ] **14. Section title size** is 40pt regular (not 48pt, not bold).
+- [ ] **14. Section title size** is 36pt regular (not 48pt, not bold).
 - [ ] **15. Closing is English-only** "Thank you." 44pt with NO presenter line.
 
 ### Branding & Copyright

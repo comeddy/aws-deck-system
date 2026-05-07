@@ -48,11 +48,14 @@ const C = {
 | Cover title | 44pt | bold | −1.5 |
 | Cover subtitle | 26pt | bold | −0.8 |
 | Closing hero | 44pt | regular | −1.5 |
-| Section title | 40pt | regular | −1.2 |
+| Section title | 36pt | regular | −1.2 |
 | Section subtitle | 22pt | regular | −0.5 |
 | Slide title | 26pt | bold | −0.8 |
+| Agenda title | 26pt | bold | −0.8 |
+| Agenda chapter num | 22pt | bold | −0.5 |
 | Stat number | 16pt | bold | −0.5 |
 | Cover presenter | 14pt | regular | 0 |
+| Agenda chapter title | 14pt | bold | −0.3 |
 | Card title | 13pt | bold | −0.4 |
 | Subtitle (content) | 12pt | bold | 0 |
 | Tagline | 9pt | regular | 0 |

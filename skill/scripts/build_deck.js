@@ -174,7 +174,7 @@ function addCoverSlide(opts) {
   s.background = { path: ASSETS.titleBg };
   s.addText(opts.title, {
     x: 0.42, y: 1.85, w: 8.5, h: 0.85,
-    fontFace: FONT, fontSize: 40, bold: true,
+    fontFace: FONT, fontSize: 44, bold: true,
     color: C.ink, charSpacing: -1.5, margin: 0,
   });
   s.addText(opts.subtitle, {
@@ -205,7 +205,7 @@ function addSectionSlide(title, subtitle, script) {
   s.background = { path: ASSETS.sectionBg };
   s.addText(title, {
     x: 0.42, y: 2.30, w: 9.16, h: 0.70,
-    fontFace: FONT, fontSize: 40,
+    fontFace: FONT, fontSize: 36,
     color: C.ink, charSpacing: -1.2, margin: 0,
   });
   if (subtitle) {
@@ -217,6 +217,48 @@ function addSectionSlide(title, subtitle, script) {
   }
   addFooter(s, ++pageNum);
   s.addNotes(script || "");
+  return s;
+}
+
+/** Agenda slide (Type E, minimal style — supports 5 or 6 chapters).
+ *  Always slide 2, immediately after the cover.
+ *  opts.chapters: array of { num, title, keywords, accent } with length 5 or 6.
+ */
+function addAgendaSlide(opts) {
+  const s = pres.addSlide();
+  s.background = { color: C.bg };
+
+  s.addText("Agenda", {
+    x: PAD_X, y: 0.32, w: 9.16, h: 0.55,
+    fontFace: FONT, fontSize: 26, bold: true,
+    color: C.ink, charSpacing: -0.8, margin: 0, valign: "top",
+  });
+
+  const isSix = opts.chapters.length === 6;
+  const yTop = isSix ? 1.08 : 1.20;
+  const chapterH = isSix ? 0.64 : 0.72;
+
+  opts.chapters.forEach((ch, i) => {
+    const cy = yTop + i * chapterH;
+    s.addText(ch.num, {
+      x: PAD_X + 0.30, y: cy, w: 0.95, h: chapterH,
+      fontFace: FONT, fontSize: 22, bold: true,
+      color: ch.accent, charSpacing: -0.5, valign: "middle", margin: 0,
+    });
+    s.addText(ch.title, {
+      x: PAD_X + 1.50, y: cy + 0.12, w: 7.50, h: 0.30,
+      fontFace: FONT, fontSize: 14, bold: true,
+      color: C.ink, charSpacing: -0.3, valign: "top", margin: 0,
+    });
+    s.addText(ch.keywords, {
+      x: PAD_X + 1.50, y: cy + 0.42, w: 7.50, h: 0.24,
+      fontFace: FONT, fontSize: 9,
+      color: C.charcoal, valign: "top", margin: 0,
+    });
+  });
+
+  addFooter(s, ++pageNum);
+  s.addNotes(opts.script || "");
   return s;
 }
 
@@ -244,6 +286,17 @@ addCoverSlide({
   presenterTitle: "Prins./Sr. Solutions Architect",
   presenterOrg: "AWS Korea",
   script: "안녕하세요. AWS Korea의 [발표자]입니다. 오늘은 AWS Standard Deck의 레퍼런스 빌드 구조를 소개드리겠습니다.",
+});
+
+addAgendaSlide({
+  chapters: [
+    { num: "01", title: "Layout Patterns Overview",   keywords: "Cover · Section · Content · Closing", accent: C.metaBlue },
+    { num: "02", title: "Design Tokens & Typography", keywords: "Pretendard · charSpacing · color palette", accent: C.googleBlue },
+    { num: "03", title: "Reusable Components",        keywords: "Footer · Stat band · Card grid",      accent: C.subtitleOrange },
+    { num: "04", title: "Speaker Scripts & Glossary", keywords: "Korean notes · 약어 설명 block",       accent: C.nvidiaGreen },
+    { num: "05", title: "QA & Fact-check Protocol",   keywords: "Checklist · vendor verification",     accent: C.amazonOrange },
+  ],
+  script: "오늘 발표는 다섯 개 챕터로 구성됩니다. 레이아웃 패턴부터 QA 프로토콜까지 차례로 살펴보겠습니다.",
 });
 
 addSectionSlide("Part 1", "Layout Patterns Overview",
