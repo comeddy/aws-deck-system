@@ -49,7 +49,7 @@ The **Agenda slide is mandatory** for any deck with 3+ chapters. For shorter dec
 - **Background**: `title_bg.png` — full-bleed 1920×1080 dark navy/teal base with a soft purple-blue arc curving from top-right to bottom-right. **Extract from an official AWS template `.pptx` whenever available**; only fall back to a synthetic gradient when no template is provided.
 - **No NDA confidential notice on cover** (removed from current spec).
 - **No logo image on cover** — identity is conveyed by typography, color, and the gradient background.
-- **Main title**: `(0.42", 1.85")`, fontSize **40pt** bold white, charSpacing −1.5, single line. Sits in the upper-middle third of the slide.
+- **Main title**: `(0.42", 1.85")`, fontSize **44pt** bold white, charSpacing −1.5, single line. Sits in the upper-middle third of the slide.
 - **Subtitle**: `(0.42", 2.65")`, fontSize **26pt bold** white, charSpacing −0.8. Smaller than title but same weight family — sits directly under the title.
 - **Presenter info (3 stacked lines)**: lower-left, fontSize 14pt charcoal `#E2E4EC`. Standard pattern:
   - Line 1: `(0.42", 4.05")` — Name (e.g., "Your Name")
@@ -173,7 +173,7 @@ const COPYRIGHT = "© 2026, Amazon Web Services, Inc. or its affiliates. All rig
 
 | Role | Size | Weight | charSpacing | Use |
 |---|---|---|---|---|
-| Cover title | 40pt | bold | −1.5 | Cover slide main title |
+| Cover title | 44pt | bold | −1.5 | Cover slide main title |
 | Closing hero | 44pt | regular | −1.5 | "Thank you." (single line, English) |
 | Section title | 36pt | regular | −1.2 | Section divider title |
 | Cover subtitle | 26pt | bold | −0.8 | Cover slide subtitle (smaller, same color) |
@@ -454,7 +454,7 @@ create_section_bg().save('/home/claude/section_bg_33.png', optimize=True)
 8. Verify page numbers increment from 2 (cover = no number) using auto-counter, **fontSize 8pt** right-aligned.
 9. Verify Korean and English content slides have identical card geometry.
 10. Verify cover has NO NDA notice and NO page number.
-11. Verify cover subtitle (26pt) is visibly smaller than title (40pt) AND fits in a single line.
+11. Verify cover subtitle (26pt) is visibly smaller than title (44pt) AND fits in a single line.
 12. Verify cover has 3-line presenter info (Name / Title / Org), not single line.
 13. Verify closing slide is English-only "Thank you." at 44pt, with NO presenter line below.
 14. Verify section title is 36pt, not 40pt or 48pt.
@@ -597,7 +597,7 @@ function addCoverSlide(opts) {
   s.background = { path: "/home/claude/title_bg.png" };
   s.addText(opts.title, {
     x: 0.42, y: 1.85, w: 9.0, h: 0.85,
-    fontFace: FONT, fontSize: 40, bold: true,
+    fontFace: FONT, fontSize: 44, bold: true,
     color: C.ink, charSpacing: -1.5, margin: 0,
   });
   s.addText(opts.subtitle, {

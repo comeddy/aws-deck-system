@@ -68,10 +68,17 @@ Run through `references/qa_checklist.md` (18 checks). Convert to PDF → JPG and
 
 | Type | Background | Title | Subtitle | Footer |
 |---|---|---|---|---|
-| **A. Cover** | `title_bg.png` | 40pt bold @ y=1.85 | 26pt bold @ y=2.65 | NO page num |
-| **B. Section divider** | `section_bg_33.png` | 40pt regular @ y=2.30 | 22pt regular @ y=2.95 | with page num |
+| **A. Cover** | `title_bg.png` | 44pt bold @ y=1.85 | 26pt bold @ y=2.65 | NO page num |
+| **B. Section divider** | `section_bg_33.png` | 36pt regular @ y=2.30 | 22pt regular @ y=2.95 | with page num |
 | **C. Content** | solid `#0E101C` | 26pt bold @ y=0.32 | 12pt bold orange @ y=0.85 | with page num |
 | **D. Closing** | `section_bg_33.png` | "Thank you." 44pt @ y=2.50 (English-only) | (none) | with page num |
+| **E. Agenda** | solid `#0E101C` | "Agenda" 26pt bold @ y=0.32 (no Korean "목차") | (none) | with page num |
+
+**Agenda slide (Type E)** — mandatory at slide 2 for any deck with 3+ chapters (recommended for 10+ slides):
+- 5–6 chapter rows in **minimal style** (no card backgrounds, no accent bars, no dividers).
+- Row layout: **22pt bold** color-coded chapter number (palette: metaBlue / googleBlue / subtitleOrange / nvidiaGreen / amazonOrange / anthropicCoral) → **14pt bold** white chapter title → **9pt** charcoal keyword tagline.
+- Geometry: 5 chapters → `yTop=1.20`, `chapterH=0.72`. 6 chapters → `yTop=1.08`, `chapterH=0.64`.
+- Forbidden: orange subtitle tagline, card backgrounds, page-number hints (`p.7 →`), stat band, Korean "목차" suffix, oversized 40pt title.
 
 For full anchor coordinates and design tokens, see [`references/design_tokens.md`](references/design_tokens.md).
 
